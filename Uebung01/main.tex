@@ -1,0 +1,142 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\newcommand{\Prb}[1]{P(\text{#1})}
+\newcommand{\CPr}[2]{P(\text{#1}|\text{#2})}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\title{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    
+    \section{Aufgabe}
+    Vermutlich korrespondiert der verschlüsselte Text zum deutschen Wort \glqq{}Was\grqq{},
+    durch ausprobieren aller 26 Schlüssel kann die Wahrscheinlichkeit für jede
+    Buchstabenkombination bestimmt werden (unter den Annahme statistischer Unabhängigkeit zwischen den Buchstaben). 
+    Hierbei ist "Was" die viert wahrscheinlichste Möglichkeit (mit einer Wahrscheinlichkeit von ca. 5\%) und die einzige die einem deutschen Wort entspricht (siehe Appendix \ref{sec:app:1} für das Skript zum berechnen der Wahrscheinlichkeiten).
+
+    Bei einem einzelnen Buchstaben kann offensichtlich noch keine sinnvolle Ausage getroffen werden, der wahrscheinlichste Schlüssel ist hier immer jener, der den Buchstaben \glqq{}E\grqq{} erzeugt. 
+    Auch bei zwei Buchstaben ist die Entschlüsselung meist nicht eindeutig, so haben schon die beiden im Skript als häufig gelisteten Bigramme \glqq{}CH\grqq{} und \glqq{}IN\grqq{} den gleichen Abstand zwischen den Buchstaben (21) also ist auch hier eine eindeutige dechiffrierung Unwahrscheinlich.
+    Bei drei Buchstaben kann meistens davon ausgegangen werden das es nur noch sehr wenige Doppelungen gibt, oder sogar gar keine wie im obigen Beispiel.
+    Folglich steht der Schlüssel ab drei bis vier Buchstaben mit hoher Wahrscheinlichkeit fest.
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\roman*)]
+        \item $k_1$ muss Teilerfremd zu $26$ sein, also muss gelten $\text{ggT}(k_1, 26) = 1$. 
+            12 Zahlen erfüllen diese Bedingung. Für $k_2$ gibt es keine Einschränkungen, folglich ist die Mächtigkeit der Menge aller möglichen $k_2$ $26$.
+
+            $k_1$ und $k_2$ können beliebig kombiniert werden, folglich gibt es maximal $12 \cdot 26 = 312$ mögliche Schlüssel.
+        \item Nur genau wenn die Anforderung der Teilerfremdheit 
+            (also $\text{ggT}(k_1, 26) = 1$) erfüllt ist, dann ist eine Eindeutige
+            Dechiffrierung möglich.
+
+            \textbf{Begründung:} Annahme 
+            $\text{ggT}(k_1, 26) = n,\ n \in \mathbb{N}, n > 1$, dann gilt:
+            
+            \begin{eqnarray*}
+                E\left((k_1, k_2), 0\right) &=& k_1 \cdot 0 +k_2 \mod 26 \\
+                    &=& k_2 \mod 26 \\
+                    &\stackrel{k_2 < 26}{=}& k_2 
+            \end{eqnarray*}
+            Sowie:
+            \begin{eqnarray*}
+                E\left((k_1, k_2), \frac{26}{n}\right) &=& k_1 \cdot \frac{26}{n} + k_2 \mod 26 \\
+                    &=& 26 \cdot \frac{k_1}{n} + k_2 \mod 26  \\
+                    &\stackrel{\frac{k_1}{n} \in \mathbb{Z}_{26}}{=}& k_2 \mod 26 \\
+                    &\stackrel{k_2 < 26}{=}& k_2 
+            \end{eqnarray*}
+
+            Es gilt also das $E\left((k_1, k_2), 0\right) = E\left((k_1, k_2), \frac{26}{n}\right)$ 
+            obwohl $0 \in \mathbb{Z}_{26}, \frac{26}{n} \in \mathbb{Z}_{26}$ und $0 \neq \frac{26}{n}$. Daraus folgt das wenn $k_1$ nicht Teilerfremd zu 26 ist eine eindeutige Chiffrierung nicht für alle Zeichen möglich ist.
+        \item Es gilt $D(k, x) = k_1^{-1} \cdot (x - k_2) \mod 26$.
+            Außerdem gilt $3^{-1} = 9$, da:
+            \begin{eqnarray*}
+                3 \cdot 3^{-1} &=& 3 \cdot 9 \mod 26 \\
+                    &=& 27 \mod 26 \\
+                    &=& 1
+            \end{eqnarray*}
+
+            Einsetzten ergibt:
+            \begin{eqnarray*}
+                D(k, E(k, x)) &=& 3^{-1} \cdot (E(k, x) - 5) \mod 26\\
+                    &=& 3^{-1} \cdot \left((3 \cdot x + 5) - 5 \right) \mod 26 \\
+                    &=& 9 \cdot (3 \cdot x) \mod 26 \\
+                    &=& (9 \cdot 3) \cdot x \mod 26 \\
+                    &=& 26 \cdot x + x \mod 26 \\
+                    &=& x \mod 26 \\
+                    &=& x
+            \end{eqnarray*}
+    \end{enumerate}
+
+    \appendix
+    \section{Aufgabe 1} \label{sec:app:1}
+    \pythonexternal{aufgabe1.py}
+\end{document}
