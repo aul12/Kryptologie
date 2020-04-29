@@ -36,15 +36,15 @@
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 
 \newcommand\pythonstyle{\lstset{
-language=Python,
-basicstyle=\ttm,
-otherkeywords={self},             % Add keywords here
-keywordstyle=\ttb\color{deepblue},
-emph={MyClass,__init__},          % Custom highlighting
-emphstyle=\ttb\color{deepred},    % Custom highlighting style
-stringstyle=\color{deepgreen},
-frame=tb,                         % Any extra options here
-showstringspaces=false            % 
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
 }}
 
 
@@ -71,7 +71,8 @@ showstringspaces=false            %
 \DeclareMathOperator{\rank}{rank}
 \newcommand{\R}[0]{\mathbb{R}}
 
-\title{Kryptologie: Algorithmen und Methoden}
+\title{Übungsblatt 1}
+\subtitle{Kryptologie: Algorithmen und Methoden}
 \author{Paul Nykiel}
 
 \begin{document}
@@ -138,25 +139,141 @@ showstringspaces=false            %
 
     \section{Aufgabe}
     Es kommen das Triple \glqq{}oqg\grqq{} sowie die Kombination \glqq{}qgyxo\grqq{} mehrfach vor.
-    Der Abstand zwischen den Vorkommen der 5-facl Kombination beträgt 20 Zeichen, zwischen den vorkommen
+    Der Abstand zwischen den Vorkommen der 5-fach Kombination beträgt 20 Zeichen, zwischen den vorkommen
     des Triples 28 Zeichen. Die Wahrscheinliche Schlüssellänge ist also $\text{ggt}(20, 28) = 4$.
     
-    Schlüsselhypothesen wurden aufgrund der Buchstabenhäufigkeiten bestimmt (siehe \ref{sec:app:31}).
+    Schlüsselhypothesen wurden aufgrund der Buchstabenhäufigkeiten bestimmt (siehe Appendix \ref{sec:app:31}).
+
+    \section{Aufgabe}
+    Text: \glqq{}ICHTESTEKRYPTOGRAPHIE\grqq{}
+
+    Schlüssel: \glqq{}KRYPTO\grqq{}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \toprule
+            K & R & Y & P & T \\
+            \midrule
+            O & A & B & C & D \\
+            \midrule
+            E & F & G & H & I \\
+            \midrule
+            L & M & N & Q & S \\
+            \midrule
+            U & V & W & X & Z \\
+            \bottomrule
+        \end{tabular}
+        \caption{Tabelle für die Playfair Verschlüsselung}
+    \end{table}
     
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{cc}
+            \toprule
+            Bigramm & Verschlüsselt \\
+            \midrule
+            IC & DH \\
+            HT & IP \\
+            ES & LI \\
+            TE & KI \\
+            KR & RY \\
+            YP & PT \\ 
+            TO & KD \\
+            GR & YF \\
+            AP & CR \\
+            HI & IE \\
+            EX & UH \\
+            \bottomrule
+        \end{tabular}
+        \caption{Substitutionstabelle für alle vorkommenden Bigramme}
+    \end{table}
+
+    Verschlüsselter Text: \glqq{}DHIPLIKIRYPTKDYFCRIEUH\grqq{}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item 
+            Siehe auch Appendix \ref{sec:app:5}.
+            \begin{enumerate}[label=\alph*)]
+                \item $ $
+                    \begin{table}[H]
+                        \centering
+                        \begin{tabular}{ccc}
+                            \toprule
+                            Text & Schlüssel & Verschlüsselt \\
+                            \midrule
+                            t & p & i \\
+                            r & l & c \\
+                            e & a & e \\
+                            f & n & s \\
+                            f & t & y \\
+                            e & r & v \\
+                            n & e & r \\
+                            m & f & r \\
+                            i & f & n \\
+                            t & e & x \\
+                            t & n & g \\
+                            w & m & i \\
+                            o & i & w \\
+                            c & t & v \\
+                            h & t & a \\
+                            n & w & j \\
+                            e & o & s \\
+                            u & c & w \\
+                            n & h & u \\
+                            u & n & h \\
+                            h & e & l \\
+                            r & u & l \\
+                            b & n & o \\
+                            a & u & u \\
+                            h & h & o \\
+                            n & r & e \\
+                            h & b & i \\
+                            o & a & o \\
+                            f & h & m \\
+                            f & n & s \\
+                            r & h & y \\
+                            i & o & w \\
+                            e & f & j \\
+                            d & f & i \\
+                            r & r & i \\
+                            i & i & q \\
+                            c & e & g \\
+                            h & d & k \\
+                            s & r & j \\
+                            t & i & b \\
+                            r & c & t \\
+                            a & h & h \\
+                            s & s & k \\
+                            s & t & l \\
+                            e & r & v \\
+                            \bottomrule
+                        \end{tabular}
+                    \end{table}
+            \end{enumerate}
+
+            Verschlüsselt: \glqq{}icesyvrrnxgiwvajswuhllouoeiomsywjiiqgkjbthklv\grqq{}
+        \item TODO
+    \end{enumerate}
 
     \appendix
     \section{Aufgabe 1} \label{sec:app:1}
-    Siehe auch \ref{sec:app:caesar}.
+    Siehe auch Appendix \ref{sec:app:caesar}.
     \pythonexternal{aufgabe1.py}
 
     \section{Aufgabe 3 - Schlüsselhypthosesn} \label{sec:app:31}
-    Siehe auch \ref{sec:app:caesar}.
+    Siehe auch Appendix \ref{sec:app:caesar}.
     \pythonexternal{aufgabe3_1.py}
 
     \section{Aufgabe 3 - Dekodieren} \label{sec:app:32}
-    Siehe auch \ref{sec:app:caesar}.
+    Siehe auch Appendix \ref{sec:app:caesar}.
     \pythonexternal{aufgabe3_2.py}
 
-    \section{Caesar.py} \label{sec:app:caesar}
+    \section{Aufgabe 5} \label{sec:app:5}
+    Siehe auch Appendix \ref{sec:app:caesar}.
+    \pythonexternal{aufgabe5.py}
+
+    \section{caesar.py} \label{sec:app:caesar}
     \pythonexternal{caesar.py}
 \end{document}
