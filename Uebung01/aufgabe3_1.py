@@ -30,7 +30,7 @@ probabilities = {
     "q": 0.02 / 100
 }
 
-key_len = 4
+key_len = 5
 text = "xipytdqgyxomprhanfllmwvlgeigahhqgyxoqgiheaeotqbkulpqpldzxhotfbyhkemdploqgotlzgutnpilplkjzxyakuwfvfzvsqerxtpphnqlklkpqul"
 
 for i in range(key_len):

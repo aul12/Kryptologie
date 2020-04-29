@@ -79,10 +79,10 @@
     \maketitle
     
     \section{Aufgabe}
-    Vermutlich korrespondiert der verschlüsselte Text zum deutschen Wort \glqq{}Was\grqq{},
+    Vermutlich korrespondiert der verschlüsselte Text zum deutschen Wort \glqq{}WAS\grqq{},
     durch ausprobieren aller 26 Schlüssel kann die Wahrscheinlichkeit für jede
     Buchstabenkombination bestimmt werden (unter den Annahme statistischer Unabhängigkeit zwischen den Buchstaben). 
-    Hierbei ist "Was" die viert wahrscheinlichste Möglichkeit (mit einer Wahrscheinlichkeit von ca. 5\%) und die einzige die einem deutschen Wort entspricht (siehe Appendix \ref{sec:app:1} für das Skript zum berechnen der Wahrscheinlichkeiten).
+    Hierbei ist \glqq{}WAS\grqq{} die viert wahrscheinlichste Möglichkeit (mit einer Wahrscheinlichkeit von ca. 5\%) und die einzige die einem deutschen Wort entspricht (siehe Appendix \ref{sec:app:1} für das Skript zum berechnen der Wahrscheinlichkeiten).
 
     Bei einem einzelnen Buchstaben kann offensichtlich noch keine sinnvolle Ausage getroffen werden, der wahrscheinlichste Schlüssel ist hier immer jener, der den Buchstaben \glqq{}E\grqq{} erzeugt. 
     Auch bei zwei Buchstaben ist die Entschlüsselung meist nicht eindeutig, so haben schon die beiden im Skript als häufig gelisteten Bigramme \glqq{}CH\grqq{} und \glqq{}IN\grqq{} den gleichen Abstand zwischen den Buchstaben (21) also ist auch hier eine eindeutige dechiffrierung Unwahrscheinlich.
@@ -139,10 +139,16 @@
 
     \section{Aufgabe}
     Es kommen das Triple \glqq{}oqg\grqq{} sowie die Kombination \glqq{}qgyxo\grqq{} mehrfach vor.
-    Der Abstand zwischen den Vorkommen der 5-fach Kombination beträgt 20 Zeichen, zwischen den vorkommen
-    des Triples 28 Zeichen. Die Wahrscheinliche Schlüssellänge ist also $\text{ggt}(20, 28) = 4$.
+    Der Abstand zwischen den Vorkommen der 5-fach Kombination beträgt 25 Zeichen, zwischen den vorkommen
+    des Triples 35 Zeichen. Die Wahrscheinliche Schlüssellänge ist also $\text{ggt}(25, 35) = 5$.
     
     Schlüsselhypothesen wurden aufgrund der Buchstabenhäufigkeiten bestimmt (siehe Appendix \ref{sec:app:31}).
+    Da die Aufgabenstellung verlangt, dass der Schlüssel ein deutsches Wort ist ergibt sich das Wort 
+    \glqq{}licht\grqq{} als Wahrscheinlichster Schlüsselkandidat.
+
+    Damit lässt sich dann der Text entschlüsseln (siehe Appendix \ref{sec:app:32}), man erhält den Text
+    \glqq{}manrasieredenkopfdesbotentaetowierediebotschaftinseinekopfhautwartebisdiehaare nachgewachsensindundschickeihnaufdiereise\grqq{}.
+    Da dies ein korrekter deutscher Satz ist, ist der Schlüsselkandidat wohl korrekt.
 
     \section{Aufgabe}
     Text: \glqq{}ICHTESTEKRYPTOGRAPHIE\grqq{}
@@ -195,63 +201,60 @@
     \begin{enumerate}[label=\alph*)]
         \item 
             Siehe auch Appendix \ref{sec:app:5}.
-            \begin{enumerate}[label=\alph*)]
-                \item $ $
-                    \begin{table}[H]
-                        \centering
-                        \begin{tabular}{ccc}
-                            \toprule
-                            Text & Schlüssel & Verschlüsselt \\
-                            \midrule
-                            t & p & i \\
-                            r & l & c \\
-                            e & a & e \\
-                            f & n & s \\
-                            f & t & y \\
-                            e & r & v \\
-                            n & e & r \\
-                            m & f & r \\
-                            i & f & n \\
-                            t & e & x \\
-                            t & n & g \\
-                            w & m & i \\
-                            o & i & w \\
-                            c & t & v \\
-                            h & t & a \\
-                            n & w & j \\
-                            e & o & s \\
-                            u & c & w \\
-                            n & h & u \\
-                            u & n & h \\
-                            h & e & l \\
-                            r & u & l \\
-                            b & n & o \\
-                            a & u & u \\
-                            h & h & o \\
-                            n & r & e \\
-                            h & b & i \\
-                            o & a & o \\
-                            f & h & m \\
-                            f & n & s \\
-                            r & h & y \\
-                            i & o & w \\
-                            e & f & j \\
-                            d & f & i \\
-                            r & r & i \\
-                            i & i & q \\
-                            c & e & g \\
-                            h & d & k \\
-                            s & r & j \\
-                            t & i & b \\
-                            r & c & t \\
-                            a & h & h \\
-                            s & s & k \\
-                            s & t & l \\
-                            e & r & v \\
-                            \bottomrule
-                        \end{tabular}
-                    \end{table}
-            \end{enumerate}
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{ccc}
+                    \toprule
+                    Text & Schlüssel & Verschlüsselt \\
+                    \midrule
+                    t & p & i \\
+                    r & l & c \\
+                    e & a & e \\
+                    f & n & s \\
+                    f & t & y \\
+                    e & r & v \\
+                    n & e & r \\
+                    m & f & r \\
+                    i & f & n \\
+                    t & e & x \\
+                    t & n & g \\
+                    w & m & i \\
+                    o & i & w \\
+                    c & t & v \\
+                    h & t & a \\
+                    n & w & j \\
+                    e & o & s \\
+                    u & c & w \\
+                    n & h & u \\
+                    u & n & h \\
+                    h & e & l \\
+                    r & u & l \\
+                    b & n & o \\
+                    a & u & u \\
+                    h & h & o \\
+                    n & r & e \\
+                    h & b & i \\
+                    o & a & o \\
+                    f & h & m \\
+                    f & n & s \\
+                    r & h & y \\
+                    i & o & w \\
+                    e & f & j \\
+                    d & f & i \\
+                    r & r & i \\
+                    i & i & q \\
+                    c & e & g \\
+                    h & d & k \\
+                    s & r & j \\
+                    t & i & b \\
+                    r & c & t \\
+                    a & h & h \\
+                    s & s & k \\
+                    s & t & l \\
+                    e & r & v \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
 
             Verschlüsselt: \glqq{}icesyvrrnxgiwvajswuhllouoeiomsywjiiqgkjbthklv\grqq{}
         \item TODO
