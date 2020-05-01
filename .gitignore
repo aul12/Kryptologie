@@ -14,3 +14,4 @@ venv
 *.csv
 __pycache__/
 tf_logs/
+*.swp

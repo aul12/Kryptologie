@@ -77,6 +77,10 @@
 
 \begin{document}
     \maketitle
+    \textbf{Hinweis: } Diese Abgabe enthält alle Aufgaben des Übungsblatts, nicht
+    nur die Aufgaben die gelöst werden müssen. Ich würde mich um Feedback zu allen
+    Aufgaben freuen, kann es allerdings verstehen wenn sie nur Aufgabe 2 und 3 korrigieren
+    können.
     
     \section{Aufgabe}
     Vermutlich korrespondiert der verschlüsselte Text zum deutschen Wort \glqq{}WAS\grqq{},
@@ -257,7 +261,16 @@
             \end{table}
 
             Verschlüsselt: \glqq{}icesyvrrnxgiwvajswuhllouoeiomsywjiiqgkjbthklv\grqq{}
-        \item TODO
+        \item
+            \textbf{Variante 1}: Alle Blöcken bis auf den ersten Block lassen sich (bei bekannter Blocklänge)
+            trivial berechnen. Es bietet sich also an alle realistischen Blocklängen auszuprobieren,
+            und dann die Blocklänge, welche den Koinzinzidenzindex maximimiert zu wählen.
+            Dieses Verfahren verhält sich dann analog wie die Friedman-Methode bei der normalen Vigenère-Chiffre.
+    
+            \textbf{Variante 2}: Die Autokey Variante 2 lässt sich (wiederrum bei bekannter Blocklänge) zu einer normalen Vigenère-Chiffre umformulieren. Von dieser lässt
+            sich dann wieder eine Güte durch den Koinzidenindex bestimmen,
+            es müssen also wieder nur alle realistischen Blocklängen getestet werden
+            und die am besten passendste Schlüssellänge bestimmt werden.
     \end{enumerate}
 
     \appendix
