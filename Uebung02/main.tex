@@ -143,4 +143,48 @@
     \end{enumerate}
 
     \section{Aufgabe}
+    \begin{eqnarray*}
+        t(n) = n^{\ln(n)} &\geq& 2^{80} \\
+        \Leftrightarrow \log_2 \left(n^{\ln(n)}\right) &\geq& 80\\
+        \Leftrightarrow \ln(n) \log_2(n) &\geq& 80 \\
+        \Leftrightarrow \ln(n) \left(1 + \frac{1}{\log_2(n)} \right) &\geq& 80 \\
+        \Leftrightarrow \ln(n) &\geq& \frac{80}{1 + \frac{1}{\log_2(n)}} \\
+        \Leftrightarrow n &\geq& \exp\left(\frac{80}{1 + \frac{1}{\log_2(n)}}\right) \\
+        \Leftrightarrow n &\geq& 1.67 \cdot 10^{14}
+    \end{eqnarray*}
+
+    \section{Aufgabe}
+    Für $F_1$ und $F_M$ gilt:
+    \begin{itemize}
+        \item $F_1 \neq F_M$ für alle Pixel die Teil von \glqq{}Hallo\grqq{} sind
+        \item $F_1 = F_M$ für alle anderen Pixel
+    \end{itemize}
+    Für $F_2$ und $F_M$ gilt:
+    \begin{itemize}
+        \item $F_2 = F_M$ für alle Pixel die Teil von \glqq{}Welt\grqq{} sind
+        \item $F_2 \neq F_M$ sonst
+    \end{itemize}
+    Daraus folgt (jedes Pixel gehört entweder zu \glqq{}Hallo\grqq{}, zu \glqq{}Welt\grqq{} oder ist Hintergrund):
+
+    Für alle Pixel die zu \glqq{}Hallo\grqq{} gehören:
+    \begin{equation*}
+        F_1 \neq F_M \neq F_2 \Leftrightarrow F_1 = F_2
+    \end{equation*}
+
+    Für alle Pixel die zu \glqq{}Welt\grqq{} gehören:
+    \begin{equation*}
+        F_1 = F_M = F_2
+    \end{equation*}
+
+    Für alle anderen Pixel:
+    \begin{equation*}
+        F_1 = F_M \neq F_2 \Leftrightarrow F_1 \neq F_2
+    \end{equation*}
+
+    Also ist das Bild das aus $F_1$ und $F_2$ resultiert grau an allen Stellen
+    an denen \glqq{}Hallo\grqq{} oder \glqq{}Welt\grqq{} war, und schwarz an
+    allen anderen Stellen. In kurz: es ist \glqq{}Hallo Welt\grqq{} in grau
+    auf schwarzem Hintergrund zu lesen.
+
+    \section{Aufgabe}
 \end{document}
