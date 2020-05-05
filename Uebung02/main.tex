@@ -187,4 +187,47 @@
     auf schwarzem Hintergrund zu lesen.
 
     \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item Siehe Abbildung \ref{fig:shiftReg}.
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}
+                    \filldraw [draw=black, fill=gray!50] (1,0) rectangle (3, 2);
+                    \filldraw [draw=black, fill=gray!50] (4,0) rectangle (6, 2);
+                    \filldraw [draw=black, fill=gray!50] (7,0) rectangle (9, 2);
+                    \filldraw [draw=black, fill=gray!50] (10,0) rectangle (12, 2);
+            
+                    \draw[line width=1pt,->] (3,1) -- (4,1);
+                    \draw[line width=1pt,->] (6,1) -- (7,1);
+                    \draw[line width=1pt,->] (9,1) -- (10,1);
+    
+                    \filldraw [draw=black, fill=white] (2,3) circle (0.4) node {\Huge$\oplus$};
+                    \filldraw [draw=black, fill=white] (5,3) circle (0.4) node {\Huge$\oplus$};
+
+                    \draw[line width=1pt,->] (11,2) -- (11,3) -- (5.4,3);
+                    \draw[line width=1pt,->] (5,2) -- (5,2.6);
+                    \draw[line width=1pt,->] (4.6,3) -- (2.4,3);
+                    \draw[line width=1pt,->] (2,2) -- (2,2.6);
+                    \draw[line width=1pt,->] (1.6,3) -- (0,3) -- (0,1) -- (1,1);
+                \end{tikzpicture}
+                \caption{Aufbau des Schieberegisters}
+                \label{fig:shiftReg}
+            \end{figure}
+        \item Bei einem Schieberegister ist die maximale Periodenlänge $2^n$,
+            hier gilt $n=4$ also ist hier die maximale Periodenlänge $16$.
+
+            Dies kann z.B. erreicht werden, indem das Schieberegister die Werte
+            von 0 bis 15 durchzählt (auch wenn das für Kryptographische Anwendungen
+            eher suboptimal ist).
+        \item Die Periodenlänge ist abhängig von der initialisierung des Schieberegisters,
+            die minimale Periodenlänge beträgt $1$, dies ist zum Beispiel der Fall
+            wenn das Schieberegister vollständig mit $0$ initialisert wird.
+
+            Die maximale Periode beträgt 7, z.B. mit Startwert $0001$ (siehe \ref{sec:app:5}).
+        
+    \end{enumerate}
+
+    \appendix
+    \section{Aufgabe 5} \label{sec:app:5}
+    \pythonexternal{aufgabe5.py}
 \end{document}
