@@ -88,5 +88,59 @@
         \text{IC}(p) = \sum_{i=1}^4 {(p_i)}^2 = {\left(\frac{1}{8}\right)}^2 + {\left(\frac{1}{2}\right)}^2 
             + {\left(\frac{1}{4}\right)}^2 + {\left(\frac{1}{8}\right)}^2 = \frac{11}{32} = 0.34
     \end{equation}
-    
+
+    (Shannon-) Entropie:
+    \begin{equation}
+        H(p) = - \sum_{i=1}^4 p_i \log_2(p_i) = - \left(-3 \cdot \frac{1}{8}
+            - 1 \cdot \frac{1}{2} - 2 \cdot \frac{1}{4} - 3 \cdot \frac{1}{8}\right)
+            = \frac{3}{8} + \frac{4}{8} + \frac{4}{8} + \frac{3}{8}
+            = \frac{7}{4} = 1.75
+    \end{equation}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item 
+            \begin{eqnarray*}
+                H(X|Y) &=& \sum_y P(Y=y) H(X|Y=y) \\
+                       &=& \sum_y P(Y=y) \sum_x p(X=x|Y=y) \log_2\left(p(X=x|Y=y)\right) \\
+                       &=& -\sum_y P(Y=y)\left( \sum_{x} P(X=x|Y=y) \log\left(P(X=x|Y=y)\right)\right) \\
+                       &=& -\sum_y P(Y=y) \left(\sum_{x} \frac{P((X=x), Y=y)}{P(Y=y)} 
+                                \log\left(\frac{P((X=x), Y=y)}{P(Y=y)}\right) \right)\\
+                       &=& -\sum_y P(Y=y) \\
+                            &&\left(\sum_{x} \frac{P((X=x), Y=y)}{P(Y=y)} \cdot
+                            \left(\log\left(P((X=x), Y=y)\right) -\log\left(P(Y=y)\right)\right)\right)\\
+                       &=& -\sum_y P(Y=y) \sum_{x} \frac{P((X=x), Y=y)}{P(Y=y)} \cdot
+                            \log\left(P((X=x), Y=y)\right) \\
+                            &&- \left(-\sum_{x} \frac{P((X=x), Y=y)}{P(Y=y)} 
+                            \cdot \log\left(P(Y=y)\right)\right)\\
+                       &=& -\sum_y P(Y=y) \frac{1}{P(Y=y)} \sum_{x} P((X=x), Y=y) \cdot
+                            \log\left(P((X=x), Y=y)\right) \\
+                            &&- \left(- \frac{\log\left(P(Y=y)\right)}{P(Y=y)} 
+                            \sum_{x} P((X=x), Y=y)\right) \\
+                       &=& \sum_y P(Y=y)\left(\frac{1}{P(Y=y)} H(X,Y=y) - \left(- \frac{\log\left(P(Y=y)\right)}{P(Y=y)} \cdot P(Y=y) \right)\right)\\
+                       &=& \sum_y P(Y=y) \left(\frac{1}{P(Y=y)} H(X,Y=y) - \left(- \log\left(P(Y=y)\right) \right)\right)\\
+                       &=& \sum_y P(Y=y) \frac{1}{P(Y=y)} H(X,Y=y) - \left(- \sum_y P(Y=y) \log\left(P(Y=y)\right) \right)\\
+                       &=& \sum_y H(X,Y=y) - H(Y)\\
+                       &=& H(X,Y) - H(Y)\\
+            \end{eqnarray*}
+        \item
+            Es gilt:
+            \begin{equation} \label{eq:HPos}
+                H(X) \geq 0 \forall x
+            \end{equation}
+            da
+            \begin{equation} \label{eq:HPosProv}
+                P(x) \geq 0 \land P(x) \leq 1 \Rightarrow \log_2(P(x)) \leq 0
+            \end{equation} 
+            außerdem gilt:
+            \begin{equation}
+                H(X, Y) = H(Y, X) = H(Y|X) + H(X)
+            \end{equation}
+            da $H(Y,X) \geq 0$ (\ref{eq:HPos} und \ref{eq:HPosProv}) folgt:
+            \begin{equation}
+                H(X, Y) \geq H(X)
+            \end{equation}
+    \end{enumerate}
+
+    \section{Aufgabe}
 \end{document}
