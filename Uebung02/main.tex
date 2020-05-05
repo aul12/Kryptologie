@@ -1,0 +1,92 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\newcommand{\Prb}[1]{P(\text{#1})}
+\newcommand{\CPr}[2]{P(\text{#1}|\text{#2})}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\title{Übungsblatt 2}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \textbf{Hinweis: } Diese Abgabe enthält alle Aufgaben des Übungsblatts, nicht
+    nur die Aufgaben die gelöst werden müssen. Ich würde mich um Feedback zu allen
+    Aufgaben freuen, kann es allerdings verstehen wenn sie nur Aufgabe 2 und 5 korrigieren
+    können.
+
+    \section{Aufgabe}
+    Koinzidenzindex:
+    \begin{equation}
+        \text{IC}(p) = \sum_{i=1}^4 {(p_i)}^2 = {\left(\frac{1}{8}\right)}^2 + {\left(\frac{1}{2}\right)}^2 
+            + {\left(\frac{1}{4}\right)}^2 + {\left(\frac{1}{8}\right)}^2 = \frac{11}{32} = 0.34
+    \end{equation}
+    
+\end{document}
