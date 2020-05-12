@@ -80,7 +80,7 @@
     \section{Aufgabe}
     Durchschnittlicher Informationsgehalt:
     \begin{equation}
-        H(x) = -\sum p_x \log_2(p_x) = - \left(0.5 \log_2(0.5) + 0.48 \log_2(0.48) + 0.02 \log_2(0.02)\right) = 1.12
+        H(x) = -\sum_x p_x \log_2(p_x) = - \left(0.5 \log_2(0.5) + 0.48 \log_2(0.48) + 0.02 \log_2(0.02)\right) = 1.12
     \end{equation}
 
     Informationsgehalt \glqq{}Zwilling\grqq{}:
@@ -89,4 +89,137 @@
     \end{equation}
 
     \section{Aufgabe}
+    Statistische Unabhängigkeit $\Leftrightarrow H(X, Y) = H(X) + H(Y)$.
+    
+    Nachrechnen: Dafür zuerst die Wahrscheinlichkeiten bestimmen (mithilfe Satz über totale Wahrscheinlichkeit):
+    \begin{eqnarray*}
+        p_{y_1} &=& p_{y_1, x_1} + p_{y_1, x_2} = \frac{1}{2} \\
+        p_{y_2} &=& p_{y_2, x_1} + p_{y_2, x_2} = \frac{3}{8} \\
+        p_{y_3} &=& p_{y_3, x_1} + p_{y_3, x_2} = \frac{1}{8} \\
+        p_{x_1} &=& p_{y_1, x_1} + p_{y_2, x_1} + p_{y_3, x_1} = \frac{1}{3} \\
+        p_{x_2} &=& 1 - p_{x_1} = \frac{2}{3}
+    \end{eqnarray*}
+    Entropien bestimmen:
+    \begin{eqnarray*}
+        H(Y) &=& -\sum_y p_{y_k} \log_2(p_{y_k}) = 1.41 \\
+        H(X) &=& -\sum_x p_{x_k} \log_2(p_{x_k}) = 0.92 \\
+        H(X,Y) &=& -\sum_x \sum_y p_{x_k, y_k} \log_2 (p_{x_k, y_k}) = 2.32
+    \end{eqnarray*}
+
+    $\Rightarrow H(X, Y) = H(X) + H(Y) \Rightarrow X$ und $Y$ statistisch unabhängig.
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+            \begin{eqnarray*}
+                H(X, Y) &=& -\sum_x \sum_y p_{x_k, y_k} \log_2(p_{x_k, y_k}) \\
+                        &=& -\left(\frac{1}{4} \log_2\left(\frac{1}{4}\right) +\frac{1}{4} \log_2\left(\frac{1}{4}\right) +\frac{1}{4} \log_2\left(\frac{1}{4}\right) +\frac{1}{4} \log_2\left(\frac{1}{4}\right) + 0 + 0\right) \\
+                        &=& -\log_2\left(\frac{1}{4}\right) \\
+                        &=& 2 
+            \end{eqnarray*}
+
+            Für $H(X)$ und $H(Y)$ Wahrscheinlichkeiten bestimmen (mithilfe Satz über totale Wahrscheinlichkeit):
+            \begin{eqnarray*}
+                p_{y_1} &=& p_{y_1, x_1} + p_{y_1, x_2} = \frac{1}{2} \\
+                p_{y_2} &=& p_{y_2, x_1} + p_{y_2, x_2} = \frac{1}{4} \\
+                p_{y_3} &=& p_{y_3, x_1} + p_{y_3, x_2} = \frac{1}{4} \\
+                p_{x_1} &=& p_{y_1, x_1} + p_{y_2, x_1} + p_{y_3, x_1} = \frac{3}{4} \\
+                p_{x_2} &=& p_{y_1, x_2} + p_{y_2, x_2} + p_{y_3, x_2} = \frac{1}{4}
+            \end{eqnarray*}
+
+            Entropien bestimmen:
+            \begin{eqnarray*}
+                H(X) &=& -\sum_x p_{x_k} \log_2(p_{x_k}) \\
+                    &=& -\left(\frac{3}{4} \log_2\left(\frac{3}{4}\right) + \frac{1}{4} \log_2\left(\frac{1}{4}\right)\right) \\
+                    &=& 0.81
+            \end{eqnarray*}
+            sowie
+            \begin{eqnarray*}
+                H(Y) &=& -\sum_y p_{y_k} \log_2(p_{y_k}) \\
+                    &=& -\left(\frac{1}{2} \log_2\left(\frac{1}{2}\right) +\frac{1}{4} \log_2\left(\frac{1}{4}\right) +\frac{1}{4} \log_2\left(\frac{1}{4}\right)\right) \\
+                    &=& 1.5
+            \end{eqnarray*}
+
+        \item Es gilt: $H(X|Y) = H(X, Y) - H(Y)$:
+            \begin{eqnarray*}
+                H(X|Y) &=& H(X, Y) - H(Y) = 0.5 \\
+                H(Y|X) &=& H(Y, X) - H(X) = 1.19 \\
+            \end{eqnarray*}
+        \item
+            \begin{equation}
+                I(X, Y) = H(X) - H(X|Y) = 0.31
+            \end{equation}
+    \end{enumerate}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item Es soll gelten $a>b$, also wird $\text{ggT}(22, 9)$ berechnet:
+            \begin{eqnarray*}
+                22 &=& 2 \cdot 9\ \text{Rest}\ 4\\ 
+                9  &=& 2 \cdot 4\ \text{Rest}\ 1\\
+                4  &=& 4 \cdot 1\ \text{Rest}\ 0
+            \end{eqnarray*}
+            $\Rightarrow \text{ggT}(9, 22) = \text{ggT}(22, 9) = 1$.
+        \item Es gilt $e=9, n = 23$, d.h. es muss gelten $9 \cdot d \equiv 1 \mod 22$.
+            Sowie $\text{ggT}(9, 22) = 1$, damit lässt sich das multiplikativ
+            Inverse mithilfe des $\text{extggT}$ berechnen:
+            \begin{equation}
+                1 = 9 - 2 \cdot 4 = 9 - 2 \cdot (22 - 2 \cdot 9) = 5 \cdot 9 - 2 \cdot 22
+            \end{equation}
+            Es gilt also:
+            \begin{eqnarray*}
+                5 \cdot 9 - 2 \cdot 22 &\equiv& 1 \mod 22 \\
+                \Leftrightarrow 5 \cdot 9 &\equiv& 1 \mod 22 \\
+                \Leftrightarrow 9 \cdot 5 &\equiv& 1 \mod 22 \\
+                \Rightarrow d = 5
+            \end{eqnarray*}
+        \item Es gilt: $e=9$, $m=16$, $n=23$:
+            \begin{equation}
+                c = m^e \mod n = 16^9 \mod 23 = 8
+            \end{equation}
+            Entschlüsseln:
+            \begin{equation}
+                \hat{m} = c^d \mod n = 8^5 \mod 23 = 16 = m
+            \end{equation}
+        \item Die Abbildung (siehe Tabelle \ref{tab:ph}) ersetzt die Zeichen (eindeutig)
+            durch andere Zeichen ohne ein erkennbares System. Siehe auch \ref{ap:4}.
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{cc}
+                    \toprule
+                    $m$ & $c$ \\
+                    \midrule
+                    1 & 1 \\
+                    2 & 6 \\
+                    3 & 18 \\
+                    4 & 13 \\
+                    5 & 11 \\
+                    6 & 16 \\
+                    7 & 15 \\
+                    8 & 9 \\
+                    9 & 2 \\
+                    10 & 20 \\
+                    11 & 19 \\
+                    12 & 4 \\
+                    13 & 3 \\
+                    14 & 21 \\
+                    15 & 14 \\
+                    16 & 8 \\
+                    17 & 7 \\
+                    18 & 12 \\
+                    19 & 10 \\
+                    20 & 5 \\
+                    21 & 17 \\
+                    22 & 22 \\                
+                    \bottomrule
+                \end{tabular}
+                \caption{Abbildung der Pohlig-Hellmann Verschlüsselung}
+                \label{tab:ph}
+            \end{table}
+        \item Es stehen $22! = 1124000727777607680000$ solcher Permutationen zur Verfügung
+    \end{enumerate}
+
+    \appendix
+    \section{Aufgabe 4} \label{ap:4}
+    \pythonexternal{aufgabe4.py}
 \end{document}
