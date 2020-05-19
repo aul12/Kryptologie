@@ -168,13 +168,6 @@
     Element existiert. Aus der Mathematik ist bekannt, dass daraus direkt gefolgt werden
     kann, dass das Element auch Linksneutral bzw. -invers ist.
 
-    \subsection{Assoziativität}
-    Für eine Gruppe muss gelten:
-    \begin{equation}
-        \forall a, b, c \in G:\ (a \circ b) \circ c = a \circ (b \circ c)
-    \end{equation}
-    Beweis:
-
     \subsection{Rechtsneutrales-Element}
     Für eine Gruppe muss gelten:
     \begin{equation}
@@ -193,20 +186,28 @@
     \end{equation}
     Beweis: Aus der Verknüpfungstabelle (Hauptdiagonale) lässt sich ablesen, dass 
     \begin{equation}
-        a \circ a = \alpha \forall a \in G
+        a \circ a = \alpha\ \forall a \in G
     \end{equation}
     folglich existiert für jedes $a \in G$ ein $a^{-1} = a$.
 
     \subsection{Kommutativität}
     Für eine abelsche Gruppe muss gelten:
     \begin{equation}
-        \forall a, b \in G: a \circ b = b \circ a
+        \forall a, b \in G:\ a \circ b = b \circ a
     \end{equation}    
     Beweis: Aus der Verknüpfungstabelle (spiegeln über die Hauptdiagonal) lässt sich
     ablesen, dass
     \begin{equation}
-        a \circ b = b \circ a \forall a, b \in G
+        a \circ b = b \circ a\ \forall a, b \in G
     \end{equation}
+
+    \subsection{Assoziativität}
+    Für eine Gruppe muss gelten:
+    \begin{equation}
+        \forall a, b, c \in G:\ (a \circ b) \circ c = a \circ (b \circ c)
+    \end{equation}
+    Beweis durch Nachrechnen aller möglichen Kombinationen, siehe Appendix
+    \ref{sec:app:2}.
 
     \section{Aufgabe}
     \begin{enumerate}[label=(\roman*)]
@@ -317,10 +318,35 @@
                     &=& \varphi(\text{kgV}(n, m)) \cdot \varphi(\text{ggT}(n, m)) \\
                     &=& \varphi(\text{ggT}(n, m)) \cdot \varphi(\text{kgV}(n, m))
             \end{eqnarray}
-                
     \end{enumerate}
+
+    \section{Aufgabe}
+    Mit $G = \mathbb{Z}_{101}$, gilt das $\abs{G} = 101$. Außerdem gilt $27 = a \in G$.
+    Aus dem Satz von Euler/Fermat folgt dann, dass:
+    \begin{equation}
+        a^{\abs{G}} = 27^{101} (\mod 101)  = 1
+    \end{equation}
+
+    \section{Aufgabe}
+    Es sollen $x$, $y$ mit $\text{ggT}(123, 57) = 123x + 57y$ bestimmt werden.
+
+    Dafür wird der erweiterte Euklidsche Algorithmus verwendet:
+    \begin{eqnarray}
+        123 &=& 2 \cdot 57\ \text{Rest } 9 \\
+        57 &=& 6 \cdot 9\ \text{Rest } 3 \\
+        9 &=& 3 \cdot 3\ \text{Rest } 0
+    \end{eqnarray}
+
+    Der ggT ist also $3$, nun $x$ und $y$ berechnen:
+    \begin{equation}
+        3 = 57 - 6 \cdot 9 = 57 - 6 \cdot (123 - 2 \cdot 57) = 57  - 6 \cdot 123 + 12 \cdot 57 = 123 \cdot (-6) + 57 \cdot 13
+    \end{equation}
+    Also gilt $x=-6$ und $y=13$.
 
     \appendix
     \section{Aufgabe 1} \label{sec:app:1}
     \pythonexternal{aufgabe1.py}    
+    
+    \section{Aufgabe 2} \label{sec:app:2}
+    \pythonexternal{aufgabe2.py}
 \end{document}
