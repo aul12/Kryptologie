@@ -1,0 +1,326 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 4}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Siehe auch Appendix \ref{sec:app:1}.
+
+    Für eine Gruppe $\mathbb{Z}_N$ muss gelten (hier bereits mit $\cdot$ als Operation):
+    \begin{equation}
+        \forall a \in \mathbb{Z}_N: \exists a^{-1} \in \mathbb{Z}_N: a \cdot a^{-1} = \varepsilon
+    \end{equation}
+    wobei $\varepsilon$ das neutrale Element bezüglich $\cdot$ ist.
+
+    Für alle $\mathbb{Z}_N$ (mit $N>1$) gilt $\varepsilon=1$, da
+    \begin{equation}
+        a \cdot 1 = a\ \forall a \in \mathbb{Z}_N 
+    \end{equation} 
+    
+    da aber gilt, dass:
+    \begin{equation}
+        \forall a \in \mathbb{Z}_N: a \cdot 0 = 0 \neq 1
+    \end{equation} 
+    hat $0$ kein multiplikativ Inverses in $\mathbb{Z}_N$ (mit $N>1$), somit ist
+    kein $\mathbb{Z}_N$ keine Gruppe (bezüglich der Multiplikation), 
+    und folglich $\mathbb{Z}_6$ ebenfalls nicht.
+
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{c|cccccc}
+    \toprule
+     & 0 & 1 & 2 & 3 & 4 & 5\\
+    \midrule
+    0 & 0 & 1 & 2 & 3 & 4 & 5\\
+    1 & 1 & 2 & 3 & 4 & 5 & 0\\
+    2 & 2 & 3 & 4 & 5 & 0 & 1\\
+    3 & 3 & 4 & 5 & 0 & 1 & 2\\
+    4 & 4 & 5 & 0 & 1 & 2 & 3\\
+    5 & 5 & 0 & 1 & 2 & 3 & 4\\
+    \bottomrule
+    \end{tabular}
+    \caption{Additionstabelle $\mathbb{Z}_6$}
+    \end{table}
+
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{c|cccccc}
+    \toprule
+     & 0 & 1 & 2 & 3 & 4 & 5\\
+    \midrule
+    0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    1 & 0 & 1 & 2 & 3 & 4 & 5\\
+    2 & 0 & 2 & 4 & 0 & 2 & 4\\
+    3 & 0 & 3 & 0 & 3 & 0 & 3\\
+    4 & 0 & 4 & 2 & 0 & 4 & 2\\
+    5 & 0 & 5 & 4 & 3 & 2 & 1\\
+    \bottomrule
+    \end{tabular}
+    \caption{Multiplikationstabelle $\mathbb{Z}_6$}
+    \label{tab:mul6}
+    \end{table}
+
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccccccc}
+    \toprule
+     & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+    \midrule
+    0 & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+    1 & 1 & 2 & 3 & 4 & 5 & 6 & 0\\
+    2 & 2 & 3 & 4 & 5 & 6 & 0 & 1\\
+    3 & 3 & 4 & 5 & 6 & 0 & 1 & 2\\
+    4 & 4 & 5 & 6 & 0 & 1 & 2 & 3\\
+    5 & 5 & 6 & 0 & 1 & 2 & 3 & 4\\
+    6 & 6 & 0 & 1 & 2 & 3 & 4 & 5\\
+    \bottomrule
+    \end{tabular}
+    \caption{Additionstabelle $\mathbb{Z}_7$}
+    \end{table}
+
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccccccc}
+    \toprule
+     & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+    \midrule
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    1 & 0 & 1 & 2 & 3 & 4 & 5 & 6\\
+    2 & 0 & 2 & 4 & 6 & 1 & 3 & 5\\
+    3 & 0 & 3 & 6 & 2 & 5 & 1 & 4\\
+    4 & 0 & 4 & 1 & 5 & 2 & 6 & 3\\
+    5 & 0 & 5 & 3 & 1 & 6 & 4 & 2\\
+    6 & 0 & 6 & 5 & 4 & 3 & 2 & 1\\
+    \bottomrule
+    \end{tabular}
+    \caption{Multiplikationstabelle $\mathbb{Z}_7$}
+    \end{table}
+
+    \section{Aufgabe}
+    \textbf{Hinweis:} hier wird nur gezeigt, dass ein Rechtsneutrales sowie -inverses
+    Element existiert. Aus der Mathematik ist bekannt, dass daraus direkt gefolgt werden
+    kann, dass das Element auch Linksneutral bzw. -invers ist.
+
+    \subsection{Assoziativität}
+    Für eine Gruppe muss gelten:
+    \begin{equation}
+        \forall a, b, c \in G:\ (a \circ b) \circ c = a \circ (b \circ c)
+    \end{equation}
+    Beweis:
+
+    \subsection{Rechtsneutrales-Element}
+    Für eine Gruppe muss gelten:
+    \begin{equation}
+        \exists \varepsilon \in G: \forall a \in G: a \cdot \varepsilon = a
+    \end{equation}
+    Beweis: Aus der Verknüpfungtabelle (erste Zeile) lässt sich ablesen, dass
+    \begin{equation}
+        \alpha \cdot a = a\ \forall a \in G
+    \end{equation}
+    folglich ist $\alpha$ das neutrale Element.
+
+    \subsection{Rechtsinverses-Element}
+    Für eine Gruppe muss gelten (hier bereits mit $\alpha$ als neutrales Element):
+    \begin{equation}
+        \forall a \in G \exists a^{-1} \in G: a \circ a^{-1} = \alpha
+    \end{equation}
+    Beweis: Aus der Verknüpfungstabelle (Hauptdiagonale) lässt sich ablesen, dass 
+    \begin{equation}
+        a \circ a = \alpha \forall a \in G
+    \end{equation}
+    folglich existiert für jedes $a \in G$ ein $a^{-1} = a$.
+
+    \subsection{Kommutativität}
+    Für eine abelsche Gruppe muss gelten:
+    \begin{equation}
+        \forall a, b \in G: a \circ b = b \circ a
+    \end{equation}    
+    Beweis: Aus der Verknüpfungstabelle (spiegeln über die Hauptdiagonal) lässt sich
+    ablesen, dass
+    \begin{equation}
+        a \circ b = b \circ a \forall a, b \in G
+    \end{equation}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\roman*)]
+        \item
+            $r$ und $s$ lassen sich in ihre Primfaktoren zerlegen:
+            \begin{eqnarray}
+                r &=& \prod_{i=1}^{k_r} {(p_{r,i})}^{e_{r,i}} \\
+                s &=& \prod_{i=1}^{k_s} {(p_{s,i})}^{e_{s,i}}
+            \end{eqnarray}
+            Da $r$ und $s$ teilerfremd sind gilt:
+            \begin{equation}
+                p_{r,i} \neq p_{s,j}\ \forall i \in \{1,\ldots, k_r\}, j \in \{1,\ldots, k_s\}
+            \end{equation}
+            Definiere die $k_n = k_r + k_s$ Primfaktoren und zugehörigen Häufigkeiten von $n$:
+            \begin{eqnarray}
+                p_{n,i} &=&
+                    \begin{cases}
+                        p_{r,i} & \text{falls } i \leq k_r \\
+                        p_{s,i-k_r} & \text{sonst}
+                    \end{cases}\\
+                e_{n,i} &=&
+                    \begin{cases}
+                        e_{r,i} & \text{falls } i \leq k_r \\
+                        e_{s,i-k_r} & \text{sonst}
+                    \end{cases}
+            \end{eqnarray}
+
+            daraus lässt sich die Primfaktorzerlegung von $n$ formulieren:
+            \begin{equation}
+                n = \prod_{i=1}^{k_n} {(p_{n,i})}^{e_{n,i}}
+            \end{equation}
+
+            Daraus folgt dann:
+            \begin{eqnarray}
+                \varphi(n) &=& \prod_{i=1}^{k_n} (p_{n,i} - 1) {(p_{n,i})}^{e_{n,i}} \\
+                        &=& \prod_{i=1}^{k_r} (p_{n,i} - 1) {(p_{n,i})}^{e_{n,i}} \cdot
+                            \prod_{i=k_r+1}^{k_n} (p_{n,i} - 1) {(p_{n,i})}^{e_{n,i}} \\
+                        &=& \prod_{i=1}^{k_r} (p_{r,i} - 1) {(p_{r,i})}^{e_{r,i}} \cdot
+                            \prod_{i=k_r+1}^{k_n} (p_{s,i-k_r} - 1) {(p_{s,i-k_r})}^{e_{s,i-k_r}} \\
+                        &=& \prod_{i=1}^{k_r} (p_{r,i} - 1) {(p_{r,i})}^{e_{r,i}} \cdot
+                            \prod_{i=1}^{k_n-k_r} (p_{s,i} - 1) {(p_{s,i})}^{e_{s,i}} \\
+                        &=& \prod_{i=1}^{k_r} (p_{r,i} - 1) {(p_{r,i})}^{e_{r,i}} \cdot
+                            \prod_{i=1}^{k_s} (p_{s,i} - 1) {(p_{s,i})}^{e_{s,i}} \\
+                        &=& \varphi(r) \cdot \varphi(s)
+            \end{eqnarray}
+        \item
+            $n$ und $m$ lassen sich in ihre Primfaktoren zerlegen:
+            \begin{eqnarray}
+                n &=& \prod_{i=1}^{k_n} {(p_{n,i})}^{e_{n,i}} \\
+                m &=& \prod_{i=1}^{k_m} {(p_{m,i})}^{e_{m,i}}
+            \end{eqnarray}
+
+            Wir definieren die Menge der alleinigen Teiler von $n$, die Menge
+            der alleinigen Teiler von $m$ und die Menge der Teiler beider Zahlen,
+            jeweils mit zugehörigen Häufigkeiten:
+            \begin{eqnarray}
+                P_n &=& \left\{(p_{n,i}, e_{n,i}) | p_{n,i} \neq p_{m,j} \forall j \in \{1, \ldots k_m\} \right\} \\
+                P_m &=& \left\{(p_{m,j}, e_{m,j}) | p_{m,j} \neq p_{n,i} \forall i \in \{1, \ldots k_n\} \right\} \\
+                P_{n, m} &=& \left\{(p_{n,i}, e_{n,i}, e_{m_j}) | p_{n,i} = p_{m,j}, 
+                    i \in \{1, \ldots k_n\}, j \in \{1, \ldots k_m\}\right\}
+            \end{eqnarray}
+            
+            Der größte gemeinsame Teiler lässt sich dann als das Produkt
+            der gemeinsamen Teiler definieren, dafür wird zuerst die Menge
+            der Teiler $P_\text{ggT}$ mit zugehörigen (minimalen) Häufigkeiten definiert:
+            \begin{equation}
+                P_\text{ggT} = \left\{\left(p, \min(e_n, e_m)\right) | (p, e_n, e_m) \in P_{n,m} \right\}
+            \end{equation}
+            damit wird dann das ggT berechnet:
+            \begin{equation}
+                \text{ggT}(n, m) = \prod_{(p, e) \in P_\text{ggT}} p^e 
+            \end{equation}
+
+            Auch für das kleinste gemeinsame Vielfache lässt sich eine Menge analog
+            zur obigen definieren. Diese enthält alle Teiler von $n$ und $m$ wobei
+            bei mehrfachvorkommen immer nur der Überschuss behalten wird.
+            \begin{equation}
+                P_\text{kgV} = P_n \cup P_m \cup
+                    \{(p, (e_n + e_m) - \min(e_n, e_m)) | (p, e_n, e_m) \in P_{n,m}\}
+            \end{equation}
+            da $a+b - \min(a,b) = \max(a,b)$ gilt, kann die Menge auch definiert werden
+            als:
+            \begin{equation}
+                P_\text{kgV} = P_n \cup P_m \cup
+                    \{(p, \max(e_n, e_m)) | (p, e_n, e_m) \in P_{n,m}\}
+            \end{equation}
+
+            analog zu oben wird daraus dann das kgV berechnet:
+            \begin{equation}
+                \text{kgV}(n, m) = \prod_{(p, e) \in P_\text{kgV}} p^e 
+            \end{equation}
+
+            Es ist zu beachten, dass die beiden Mengen zusammen genau alle Teiler von 
+            $n\cdot m$, mit der Häufigkeiten (also quasi $P_{n,m}$) enthält.
+
+            Mit diesen Definition nun zum eigentlichen Beweis:
+            \begin{eqnarray}
+                \varphi(n) \varphi(m) &=& \prod_{i=1}^{k_n} (p_{n,i}-1) {(p_{n,i})}^{e_{n,i}} \cdot \prod_{i=1}^{k_m} (p_{m,i}-1) {(p_{m,i})}^{e_{m,i}} \\
+                    &=& \prod_{(p, e) \in P_n} (p-1) p^e \cdot \prod_{(p,e) \in P_m} (p-1) p^e \\
+                    && \cdot \prod_{(p, e_n, e_m) \in P_{n, m}} {(p-1)}^2 p^{e_n + e_m} \\
+                    &=& \prod_{(p, e) \in P_n} (p-1) p^e \cdot \prod_{(p,e) \in P_m} (p-1) p^e \\
+                    && \cdot \prod_{(p, e_n, e_m) \in P_{n, m}} {(p-1)}^2 p^{\max(e_n, e_m) + \min(e_n, e_m)} \\
+                    &=& \prod_{(p, e) \in P_n} (p-1) p^e \cdot \prod_{(p,e) \in P_m} (p-1) p^e \\
+                    && \cdot \prod_{(p, e_n, e_m) \in P_{n, m}} (p-1) p^{\max(e_n, e_m)} (p-1) p^{\min(e_n, e_m)} \\
+                    &=& \prod_{(p, e) \in P_n} (p-1) p^e \cdot \prod_{(p,e) \in P_m} (p-1) p^e \\
+                    && \cdot \prod_{(p, e_n, e_m) \in P_{n, m}} (p-1) p^{\max(e_n, e_m)} \cdot \prod_{(p,e) \in P_\text{ggT}}  (p-1) p^e \\
+                    &=& \prod_{(p,e) \in P_\text{kgV}} (p-1) p^e \cdot \prod_{(p,e) \in P_\text{ggT}}  (p-1) p^e \\
+                    &=& \varphi(\text{kgV}(n, m)) \cdot \varphi(\text{ggT}(n, m)) \\
+                    &=& \varphi(\text{ggT}(n, m)) \cdot \varphi(\text{kgV}(n, m))
+            \end{eqnarray}
+                
+    \end{enumerate}
+
+    \appendix
+    \section{Aufgabe 1} \label{sec:app:1}
+    \pythonexternal{aufgabe1.py}    
+\end{document}
