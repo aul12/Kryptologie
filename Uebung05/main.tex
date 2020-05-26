@@ -1,0 +1,120 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 5}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Gesucht: $\chi \in \mathbb{Z}_{55}$ mit $\chi^2 \equiv 1\mod 55$.
+
+    \begin{eqnarray}
+        \chi_1 &=& \text{modexp}(1, (55 + 1)/4, 55) \\
+               &=& 1^{14} \mod 55 \\
+               &=& 1 \\
+        \chi_2 &=& 55-\chi_1 \\
+               &=& 54
+    \end{eqnarray}
+
+    \section{Aufgabe}
+    Es sind bekannt: $c, d, e, n$. Außerdem gilt:
+    \begin{eqnarray}
+        c &=& m \cdot a \mod n \label{eq:2c} \\
+        d &=& c \cdot b \mod n \label{eq:2d} \\
+        e &=& d \cdot a^{-1} \mod n \label{eq:2e} \\
+        m &=& e \cdot b^{-1} \mod n \label{eq:2m}
+    \end{eqnarray}
+    $d^{-1} \mod n$ lässt sich effizienz über den extggT bestimmen, 
+    mit Gleichung \ref{eq:2e} gilt dann:
+    \begin{eqnarray}
+        e &=& d \cdot a^{-1} \mod n \\
+        \Leftrightarrow d^{-1} \cdot e &=& d \cdot d^{-1} \cdot a^{-1} \mod n\\
+        \Leftrightarrow d^{-1} \cdot e &=& a^{-1} \mod n\\
+        \stackrel{(\ref{eq:2c})}{\Rightarrow} c \cdot d^{-1} e &=& m \cdot a \cdot d^{-1} \cdot e \mod n \\
+        \Leftrightarrow c \cdot d^{-1} e &=& m \cdot a \cdot a^{-1} \mod n \\
+        \Leftrightarrow c \cdot d^{-1} e &=& m \mod n
+    \end{eqnarray} 
+
+    \section{Aufgabe}
+    Gegeben $n$ und $d$ oder $e$ lässt sich bei PH effizient $e$ bzw. $d$ berechnen,
+    wie es auch bei der Schlüsselerzeugung gemacht wird.
+    Folglich kann auch jeder Angreifer des Schlüsselpaar aus einem der beiden Schlüssel
+    bestimmen.
+
+    \section{Aufgabe}
+    Bei der asymterischen Verschlüsselung wird der öffentliche Schlüssel des Wahlleiters
+    von allen Teilnehmern zum verschlüsseln genutzt, so dass nur der Wahlleiter die
+    Nachrichten entschlüsseln kann.
+
+    Da es allerdings nur vier verschiedene Nachrichten gibt kann ein Angreifer ebenso
+    alle möglichen Nachrichten verschlüsseln und muss dann nur noch die Verschlüsselten
+    Nachrichten mit den abgefangenen Nachrichten vergleichen.
+
+    \section{Aufgabe}
+    \pythonexternal{aufgabe5.py}
+\end{document}
