@@ -71,15 +71,43 @@
 \begin{document}
     \maketitle
     \section{Aufgabe}
-    Gesucht: $\chi \in \mathbb{Z}_{55}$ mit $\chi^2 \equiv 1\mod 55$.
+    $n=55$ zerfällt in zwei Primfaktoren $p=5$ und $q=11$. Es soll die Quadratwurzel
+    von $x=1 \mod n$ berechnet werden. Hierfür wird der Chinesische Restsatz angewandt.
+    Dafür werden zuerst zwei Quadratwurzeln $w_1$ und $w_2$ berechnet.
 
+    Offensichtlich gilt:
     \begin{eqnarray}
-        \chi_1 &=& \text{modexp}(1, (55 + 1)/4, 55) \\
-               &=& 1^{14} \mod 55 \\
-               &=& 1 \\
-        \chi_2 &=& 55-\chi_1 \\
-               &=& 54
+        1^2 &=& 1 \mod 5 \\
+        1^2 &=& 1 \mod 11
     \end{eqnarray}
+    also gilt $w_1 = w_2 = 1$. Die vier Quadratwurzeln ergeben sich nun durch
+    Rücktransformation der Tuple $(1,1), (1,-1), (-1, 1), (-1, -1)$.
+
+    Hierfür $m_1, m_2$ bestimmen:
+    \begin{eqnarray}
+        m_1 &=& \frac{n_1 \cdot n_2}{n_1} = n_2 = 11\\
+        m_2 &=& \frac{n_1 \cdot n_2}{n_2} = n_1 = 5
+    \end{eqnarray}
+    Nun die multiplikativ Inversen $y_1, y_2$ bestimmen:
+    \begin{eqnarray}
+        y_1 &=& m_1^{-1} \mod n_1 = \text{modexp}(m_1, n_1 - 2, n_1) = 11^{5-2} \mod 5 = 1\\
+        y_2 &=& m_2^{-1} \mod n_2 = \text{modexp}(m_2, n_2 - 2, n_2) = 5^{11-2} \mod 11 = 9
+    \end{eqnarray}
+
+    Damit lässt sich dann die Rücktransformation bestimmen, allgemein gilt:
+    \begin{equation}
+        x = \left( \sum_{i=1}^k a_i \cdot y_i \cdot m_i \right) \mod n
+    \end{equation}
+
+    Damit gilt dann für die einzelnen Tuple:
+    \begin{eqnarray}
+        x_1 &=& 1 \cdot 1 \cdot 11 + 1 \cdot 9 \cdot 5 \mod 55 = 56 \mod 55 = 1 \\
+        x_2 &=& 1 \cdot 1 \cdot 11 + -1 \cdot 9 \cdot 5 \mod 55 = -34 \mod 55 = 21 \\
+        x_3 &=& -1 \cdot 1 \cdot 11 + 1 \cdot 9 \cdot 5 \mod 55 = 34 \mod 55  = 34\\
+        x_4 &=& -1 \cdot 1 \cdot 11 + -1 \cdot 9 \cdot 5 \mod 55 = -56 \mod 55 = 54 \\
+    \end{eqnarray}
+
+    Also sind die Quadratwurzeln von $1 (\mod 55)$: $1, 21, 34, 54$.
 
     \section{Aufgabe}
     Es sind bekannt: $c, d, e, n$. Außerdem gilt:
