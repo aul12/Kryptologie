@@ -1,0 +1,246 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 6}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Die vorgestellte Lösung implementiert ein Commitment Schema unter der Ausnutzung
+    der nicht effizienten Lösbarkeit des diskreten-Logarithmus.
+
+    Beide Partner wählen ihren jeweiligen Schlüssel ($x$ bzw. $y$), außerdem wählen 
+    beide einen eigene Primzahl ($c$ bzw. $d$). Aus $x$ bzw. $y$ können Alice und Bob
+    bereits $\tilde{x}$ bzw. $\tilde{y}$ berechnen.
+
+    Im ersten Schritt wird $\tilde{x}$ und $\tilde{y}$ verschlüsselt an den jeweilig 
+    anderen übertragen, hierfür berechnet Alice $h=\tilde{x}^c$ und Bob $j=\tilde{y}^d$.
+    Alice überträgt dann $h$ und Bob und Bob überträgt $j$ an Alice.
+    Die Reihenfolge hiervon ist egal.
+
+    Da der diskrete-Logarithmus nicht effizient zu berechnen ist können weder Alice 
+    noch Bob aus der Empfangenen Zahl $\tilde{y}$ bzw. $\tilde{x}$ berechnen.
+    Es ist aber für Bob und Alice auch nicht (effizient) möglich eine andere Kombination
+    aus $\tilde{x}$ und $c$ bzw. $\tilde{y}$ und $d$ zu wählen die die selbe Nachricht
+    erzeugt.
+         
+    Nun wird quasi ein normaler DH-Schlüsseltausch durchgeführt: Alice sendet 
+    $\tilde{x}$ und $c^{-1}$, Bob sendet $\tilde{y}$ und $d^{-1}$. Aus $\tilde{x}$ und
+    $y$ kann Bob $z$ berechnen, Alice verwendet dafür $\tilde{y}$ und $x$.
+    Zur Verifikation, dass die Zahl $\tilde{x}$ bzw. $\tilde{y}$ die ursprünglich
+    gewählte ist, können Alice und Bob die ursprüngliche Zahl entschlüsseln, also
+    $\tilde{x}^{c^{c^{-1}}} = \tilde{x}$ bzw. $\tilde{y}^{d^{d^{-1}}} = \tilde{y}$ berechnen.
+
+    \section{Aufgabe}
+    Die Wahrscheinlichkeit, dass das korrekte Ergebniss nach $t$ vorliegt ist gegeben durch:
+    \begin{equation}
+        p_\text{Korrekt} = 1 - \frac{1}{2} {\left(1 - 4 \varepsilon^2 \right)}^{\frac{t}{2}}
+    \end{equation}
+    
+    nach $t$ auflösen:
+    \begin{eqnarray}
+        p_\text{Korrekt} &=& 1 - \frac{1}{2} {\left(1 - 4 \varepsilon^2 \right)}^{\frac{t}{2}} \\
+        2 \cdot (1 - p_\text{Korrekt}) &=& {\left(1 - 4 \varepsilon^2 \right)}^{\frac{t}{2}} \\
+        \log\left(2 \cdot (1 - p_\text{Korrekt})\right) &=& \frac{t}{2} \log \left(1 - 4 \varepsilon^2 \right) \\
+        2 \cdot \frac{\log\left(2 \cdot (1 - p_\text{Korrekt})\right)}{\log \left(1 - 4 \varepsilon^2 \right)} &=& t  \\
+    \end{eqnarray}
+
+    Für $\varepsilon = \frac{1}{3}$ und $p_\text{Korrekt}=1-0.001$ gilt dann:
+    \begin{equation}
+        t = 2 \cdot \frac{\log\left(2 \cdot (1 - p_\text{Korrekt})\right)}{\log \left(1 - 4 \varepsilon^2 \right)} = 21.14
+    \end{equation}
+    Der Algorithmus muss mindestens $22$ mal ausgeführt werden um die Fehlerwahrscheinlichkeit auf unter $0.001$ zu drücken.
+
+    \section{Aufgabe}
+    Miller-Rabin-Primzahltest für $n=65$.
+
+    $n-1$ in Binärdarstellung:
+    \begin{equation}
+        n-1 = 64 = {1000000}_2 = (b_6, b_5, b_4, b_3, b_2, b_1, b_0)
+    \end{equation}
+    außerdem gilt $k=6$, $d=1$ und $dd=1$.
+
+    \subsection{$a=8$}
+    \begin{enumerate}
+        \item Schleife: $i=k=6$
+        \item $d = d \cdot d \mod n = 1 \cdot 1 \mod 65 = 1$
+        \item Erstes If: $d=1$ und $dd=1$, also kein return
+        \item Zweites If: $b_i = b_6 = 1$, also $d = d \cdot a \mod n = 1 \cdot 8 \mod 65 = 8$
+        \item $dd=d=8$
+        \item Zweiter Schleifendurchlauf: $i=5$
+        \item $d = 64 \mod 65 = 64$  
+        \item Erstes If: $d \neq 1$, also kein return
+        \item Zweites If: $b_5 \neq 1$, also $d$ nicht verändern
+        \item $dd = d = 64$
+        \item Dritter Schleifendurchlauf: $i=4$
+        \item $d = 64^2 \mod 65 = 1$
+        \item Erstes If: $d=1$ und $dd = 64 \neq 1$ aber $dd = n-1$, also kein return
+        \item Zweites If: $b_4 \neq 1$, also $d$ nicht verändern
+        \item $dd = d = 1$
+        \item Vierter Schleifendurchlauf: $i=3$
+        \item $d = 1 \cdot 1 \mod n = 1$
+        \item Erstes If: $d=1$ und $dd=1$, also kein return
+        \item Zweites If: $b_i \neq 1$. also $d$ nicht verändern.
+        \item $dd = d= 1$.
+        \item Ab hier wird $d$ und $dd$ nicht mehr verändert, da $d \cdot d = d$ und $b_i = 0\ \forall i \neq 6$.
+        \item Also ist das Ergebniss durch $d=1$ gegeben
+    \end{enumerate} 
+    Der Primzahltest klassifiziert $65$ als Primzahl (obwohl es offensichtlich kein
+    Primzahl ist).
+    
+    \subsection{$a=12$}
+    \begin{enumerate}
+        \item Schleife: $i=k=6$
+        \item $d=1$
+        \item Erstes If: $dd=1$, also kein return
+        \item Zweites If: $b_i=1$, also $d = d \cdot 12 \mod 65 = 12$
+        \item $dd = 12$
+        \item Zweiter Schleifendurchlauf: $i=5$
+        \item $d=12 \cdot 12 \mod 65 = 14$ 
+        \item Erstes If: Kein Return
+        \item Zweites If: $d$ nicht verändern
+        \item $dd=d=14$
+        \item Dritter Schleifendurchlauf: $i=4$
+        \item $d=14 \cdot 14 \mod 65 = 1$
+        \item $d=1$ und $dd = 14 \neq 1$ und $dd = 14 \neq n - 1 = 64$, also return 0
+    \end{enumerate}
+    Mit $a=12$ wird die Zahl korrekterweise als nicht-Primzahl klassifiziert.
+
+    \section{Aufgabe}
+    Unter den gegeben Bedingungen soll gelten, dass:
+    \begin{equation}
+        B_n = \{a \in \{1, \ldots, n-1\} | a^{k \cdot 2^i} \equiv \pm 1 \mod n\}
+    \end{equation}
+    eine echte Untergruppe von $\mathbb{Z}^*_n$ ist.
+
+    Also soll gelten:
+    \begin{itemize}
+        \item $B_n \subset \mathbb{Z}^*_n$ d.h. $x \in B_n \Rightarrow x \in \mathbb{Z}^*_n \land \exists y \in \mathbb{Z}^*_n$ mit $y \notin B_n$
+        \item $B_n$ ist eine Gruppe
+    \end{itemize}
+
+    \vspace{.5cm}
+
+    Die Aussage gilt nicht, da:
+    
+    Wähle $3 = n \in \mathbb{N}$. Dann gilt:
+    \begin{equation}
+        p \cdot q = 3 \text{ mit } p = 1, q = 3
+    \end{equation}
+    offensichtlich gilt $\text{ggT}(1, 3) = 1$ und $p$, $q$ sind ungerade.
+    Außerdem sind $p$ und $q$ eindeutig, abgesehen von der Vertauschung.
+    
+    Außerdem soll gelten
+    \begin{equation}
+        2 = n-1 = k \cdot 2^u
+    \end{equation}
+    mit $k$ ungerade, natürlich und $u\geq1$.
+
+    Die einzige Lösung dieses (nichtlinearen) Gleichungssystem mit Nebenbedingung ist
+    $k=1$ und $u=1$.
+
+    Die Zahl $i$ soll aus $\{0, \ldots, u-1\} = \{0\}$ sein, folglich
+    ist der einzige Mögliche Wert $i=0$. 
+
+    Außerdem muss gelten 
+    \begin{equation}
+        b^{2^i} \equiv -1 \mod n \text{ mit } b \in \mathbb{Z}_n
+    \end{equation}
+    für $b=2$ gilt: 
+    \begin{equation}    
+        2^{2^0} = 2 = n-1 = -1 \mod n
+    \end{equation}
+    folglich gilt $i=0, b=2$.
+
+    Damit gilt dann für $B_3$:
+    \begin{equation}
+        B_3 = \{a \in \{1, 2\} | a^{1 \cdot 2^0} = a \equiv \pm 1 \mod n\}
+    \end{equation}
+    Es gilt: $1 \equiv 1 \mod n$ und $2 \equiv -1 \mod n$, also gilt:
+    \begin{equation}
+        B_3 = \{1, 2\}
+    \end{equation}
+
+    Außerdem gilt:
+    \begin{equation}
+        \mathbb{Z}^*_n = \{a | 1 \leq a \leq n-1, \text{ggT}(n, a) = 1\}
+    \end{equation}
+    Daraus folgt, dass $\mathbb{Z}^*_3 = \{1, 2\}$.
+
+    Damit ist aber $B_3 = \mathbb{Z}^*_3$, und damit folglich keine echte Untergruppe,
+    da $B_3$ keine echte Teilmenge ist.
+
+    Formal ausgedrückt gilt:
+    \begin{equation}
+        \nexists y \in \mathbb{Z}^*_3 \text{ mit } y \notin B_3
+    \end{equation}
+
+    \setcounter{section}{5}
+    \section{Aufgabe}
+    \pythonexternal{aufgabe6.py} 
+\end{document}
