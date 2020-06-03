@@ -281,13 +281,40 @@
     \end{equation}
     Da $b$ und $m$ Teilerfremd sind ist das erfüllt. 
 
+    Folglich gilt:
+    \begin{equation}
+        B_n \subseteq \mathbb{Z}^*_n
+    \end{equation}
+
     \subsection{Echte Teilmenge}
     Es muss gelten:
     \begin{equation}
         \exists z \in \mathbb{Z}^*_n: z \notin B_n
     \end{equation}
 
-    TODO: ansatz wie z gewählt werden soll
+    Widerspruchsbeweis: Annahme $p, q \in B_n$, dann gilt:
+    \begin{eqnarray}
+        p^{k \cdot 2^i} &\equiv& \pm 1 \mod n \\
+        q^{k \cdot 2^i} &\equiv& \pm 1 \mod n \\
+    \end{eqnarray}
+    durch multiplizieren ergibt sich:
+    \begin{equation}
+        q^{k \cdot 2^i} \cdot p^{k \cdot 2^i} \equiv \pm 1 \cdot \pm 1 = \pm 1 \mod n
+    \end{equation}
+    Es gilt, dass $n=p\cdot$, das heißt es muss gelten, dass:
+    \begin{equation}
+        n^{k \cdot 2^i} \equiv \pm 1 \mod n
+    \end{equation} 
+
+    Es gilt aber:
+    \begin{equation}
+        n^{k \cdot 2^i} = 0
+    \end{equation}
+    folglich ist hier ein Widerspruch, $p$ und $q$ sind somit nicht in $B_n$.
+    Somit ist $B_n$ eine echte Teilmenge, es gilt also:
+    \begin{equation}
+        B_n \subset \mathbb{Z}^*_n
+    \end{equation}
 
     \subsection{Abgeschlossenheit}
     Es muss gelten:
