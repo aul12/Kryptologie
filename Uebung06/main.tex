@@ -23,6 +23,7 @@
 \usepackage{import}
 \usepackage{cleveref}
 \usepackage{bm}
+\usepackage{tcolorbox}
 
 \usetikzlibrary{calc,shapes.multipart,chains,arrows}
 
@@ -184,61 +185,145 @@
         \item $B_n$ ist eine Gruppe
     \end{itemize}
 
-    \vspace{.5cm}
+    Mit der Definition von $\mathbb{Z}^*_n$ folgt:
+    \begin{itemize}
+        \item Teilmenge: $\forall b \in B_n: \text{ggT}(b, n) = 1$.
+        \item Echte Teilmenge: $\exists y \in \mathbb{Z}^*_n$ mit $y \notin B_n$
+        \item Abgeschlossenheit: $\forall x, y \in B_n: x \cdot y \in B_n$
+        \item Neutrales Element: $1 \in B_n$
+        \item Inverses Element: $\forall x \in B_n: \exists x^{-1} \in B_n$
+    \end{itemize}
 
-    Die Aussage gilt nicht, da:
-    
-    Wähle $3 = n \in \mathbb{N}$. Dann gilt:
+    \subsection{Teilmenge}
+    Es muss gelten:
     \begin{equation}
-        p \cdot q = 3 \text{ mit } p = 1, q = 3
+        \forall b \in B_n: \text{ggT}(b, n) = 1
     \end{equation}
-    offensichtlich gilt $\text{ggT}(1, 3) = 1$ und $p$, $q$ sind ungerade.
-    Außerdem sind $p$ und $q$ eindeutig, abgesehen von der Vertauschung.
-    
-    Außerdem soll gelten
+    das heißt es muss gezeigt werden, dass (mit $k$, $i$ wie in Aufgabenstellung):
     \begin{equation}
-        2 = n-1 = k \cdot 2^u
+        b^{k \cdot 2^i} \equiv \pm 1 \mod n \Rightarrow \text{ggT}(b, n) = 1
     \end{equation}
-    mit $k$ ungerade, natürlich und $u\geq1$.
+    was äquivalent ist, zu:
+    \begin{equation}
+        \text{ggT}(b, n) \neq 1 \Rightarrow b^{k \cdot 2^i} \not\equiv \pm 1 \mod n
+    \end{equation}
 
-    Die einzige Lösung dieses (nichtlinearen) Gleichungssystem mit Nebenbedingung ist
-    $k=1$ und $u=1$.
-
-    Die Zahl $i$ soll aus $\{0, \ldots, u-1\} = \{0\}$ sein, folglich
-    ist der einzige Mögliche Wert $i=0$. 
-
-    Außerdem muss gelten 
+    Es gilt $i < u$. Daraus folgt:
     \begin{equation}
-        b^{2^i} \equiv -1 \mod n \text{ mit } b \in \mathbb{Z}_n
+        k \cdot 2^i < k \cdot 2^u 
     \end{equation}
-    für $b=2$ gilt: 
-    \begin{equation}    
-        2^{2^0} = 2 = n-1 = -1 \mod n
+    bzw. für ein $c \geq 1$:
+    \begin{equation}
+        k \cdot 2^i = \frac{k \cdot 2^u}{2^c}
     \end{equation}
-    folglich gilt $i=0, b=2$.
 
-    Damit gilt dann für $B_3$:
+    Für alle Element aus $B_n$ gilt:
     \begin{equation}
-        B_3 = \{a \in \{1, 2\} | a^{1 \cdot 2^0} = a \equiv \pm 1 \mod n\}
+        b^{k \cdot 2^i} \equiv \pm 1 \mod n
     \end{equation}
-    Es gilt: $1 \equiv 1 \mod n$ und $2 \equiv -1 \mod n$, also gilt:
+    anders formuliert:
+    \begin{eqnarray}
+        b^{\frac{k \cdot 2^u}{2^c}} &\equiv& \pm 1 \mod n \\
+        \Leftrightarrow b^{k \cdot 2^u} &\equiv& {\left(\pm 1\right)}^{2^c} \mod n
+    \end{eqnarray}
+    da $c \geq 1$ gilt $2^c$ ist gerade, also gilt:
+    \begin{eqnarray}
+        b^{k \cdot 2^u} &\equiv& 1 \mod n \\
+        b^{n-1} &\equiv& 1 \mod n
+    \end{eqnarray}
+
+    Also reicht es zu zeigen, dass:
     \begin{equation}
-        B_3 = \{1, 2\}
+        \text{ggT}(b, n) \neq 1 \Rightarrow b^{n-1} \not\equiv 1 \mod n
     \end{equation}
+
+    Aus $\text{ggT}(b, n) \neq 1$ folgt:
+    \begin{eqnarray}
+        b &=& c \cdot f \\
+        n &=& m \cdot f \\
+    \end{eqnarray}
+    mit $\text{ggt}(b, n) = f$. Außerdem gilt: $\text{ggt}(c, m) = 1$, da:
+    wäre $\text{ggT}(c, m) > 1$, so wäre $f$ nicht maximal. 
+    Da $\tilde{f} = f \cdot \text{ggT}(c, m)$ auch ein Teiler von $n$ und $b$ wäre.
+    Zudem gilt $\text{ggT}(b, m) = 1$ und $\text{ggT}(n, c) = 1$, mit gleicher
+    Argumentation.
+
+    Außerdem gilt natürlich $c, m, f > 1$.
+
+    Weiteres umformen ergibt:
+    \begin{eqnarray}
+        b^{n-1} &\not\equiv& 1 \mod n \\
+        b^{n} &\not\equiv& b \mod n \\
+        {\left(c \cdot f \right)}^{m \cdot f} &\not\equiv& c \dot f \mod m \cdot f \\
+        c^{m \cdot f} \cdot f^{m \cdot f} &\not\equiv& c \dot f \mod m \cdot f \\
+        c^{m \cdot f} \cdot f^{m \cdot f - 1} &\not\equiv& c \mod m \\
+        {\left(c \cdot f\right)}^{m \cdot f -1} &\not\equiv& 1 \mod m \\
+        b^{n-1} \equiv n \mod m
+    \end{eqnarray}
+    Es gilt aber $n = m \cdot f$, daraus folgt:
+    \begin{equation}
+        n \mod m = 0
+    \end{equation}
+
+    Dadurch vereinfacht sich die Gleichung zu:
+    \begin{equation}
+        b^n \not\equiv 0 \mod m
+    \end{equation}
+
+    Das heißt es muss gelten (für $d \in \mathbb{Z}$):
+    \begin{equation}
+        b^n \neq m \cdot d
+    \end{equation}
+
+    Das heißt, es muss gelten:
+    \begin{equation}
+        \frac{b^n}{m} \neq d
+    \end{equation}
+    Da $b$ und $m$ Teilerfremd sind ist das erfüllt. 
+
+    \subsection{Echte Teilmenge}
+    TODO
+
+    \subsection{Abgeschlossenheit}
+    Es muss gelten:
+    \begin{equation}
+        \forall x, y \in B_n:\ x \cdot y \in B_n
+    \end{equation}
+    Definiere:
+    \begin{equation}
+        z = x \cdot y \mod n
+    \end{equation}
+    Offensichtlich gilt: $z \in \{1, \ldots, n-1\}$, da $x, y \in \{1, \ldots, n-1\}$.
 
     Außerdem gilt:
-    \begin{equation}
-        \mathbb{Z}^*_n = \{a | 1 \leq a \leq n-1, \text{ggT}(n, a) = 1\}
-    \end{equation}
-    Daraus folgt, dass $\mathbb{Z}^*_3 = \{1, 2\}$.
+    \begin{eqnarray}
+        z^{k \cdot 2^i} &=& {\left(x \cdot y\right)}^{k \cdot 2^i} \\
+            &=& x^{k \cdot 2^i} \cdot y^{k \cdot 2^i} \\
+            &=& (\pm 1) \cdot (\pm 1) \\
+            &=& \pm 1
+    \end{eqnarray}
 
-    Damit ist aber $B_3 = \mathbb{Z}^*_3$, und damit folglich keine echte Untergruppe,
-    da $B_3$ keine echte Teilmenge ist.
+    Also gilt: $z = x \cdot y \in B_n$ für beliebige $x, y \in B_n$.
 
-    Formal ausgedrückt gilt:
+    \subsection{Neutrales Element}
+    Es gilt: $1 \in \{1, \ldots, n-1\}$, sowie:
     \begin{equation}
-        \nexists y \in \mathbb{Z}^*_3 \text{ mit } y \notin B_3
+        1^{k \cdot 2^i} = 1 \mod n
     \end{equation}
+    also gilt: $1 \in B_n$.
+
+    \subsection{Inverses Element}
+    Es muss gelten:
+    \begin{equation}
+        x \in B_n \Rightarrow x^{-1} \in B_n
+    \end{equation}
+    es gilt $x^{k \cdot 2^i} = \pm 1$, dann gilt auch:
+    \begin{eqnarray}
+        {\left(x^{-1}\right)}^{k \cdot 2^i} &=& x^{(-1) \cdot (k \cdot 2^i)} \\
+            &=& {\left(x^{k \cdot 2^i}\right)}^{-1} \\
+            &=& {\left(\pm 1 \right)}^{-1} \\
+            &\stackrel{1^{-1} = 1, {-1}^{-1} = -1}{=} \pm 1
+    \end{eqnarray}
 
     \setcounter{section}{5}
     \section{Aufgabe}
