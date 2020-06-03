@@ -1,5 +1,15 @@
 import random
 
+def z_n_star(n):
+    z_n = []
+    for a in range(1, n-1):
+        if ggT(a, n) == 1:
+            z_n.append(a)
+    return z_n
+
+def ggT(a, b):
+    return a if b == 0 else ggT(b, a % b)
+
 def calc_b_n(p, q):
     n = p * q
     
@@ -31,16 +41,27 @@ def calc_b_n(p, q):
              
 
 def main():
-    max_pq = 1000
+    max_pq = 10
     max_i = 0
     for x in range(1, max_pq):
         for y in range(x, max_pq):
             p = 2*x + 1
             q = 2*y + 1
-            n, u, k, i, b_n = calc_b_n(p, q)
-            if i > max_i:
-                max_i = i
-                print(i)
+            if ggT(p, q) == 1:
+                n, u, k, i, b_n = calc_b_n(p, q)
+                z_n = z_n_star(n)
+
+                candidates = []
+
+                for z in z_n:
+                    found = False
+                    for b in b_n:
+                        if b == z:
+                            found = True
+                    if not found:
+                        candidates.append(z) 
+
+                print(f"n={n}\tp={p}\tq={q}\trest={candidates}")
 
 if __name__ == "__main__":
     main()
