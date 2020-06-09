@@ -1,0 +1,369 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+\usepackage{tcolorbox}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 7}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Es sind bekannt: $n, e_1, e_2, c_1, c_2$.
+
+    Es gilt:
+    \begin{eqnarray}
+        c_1 &=& m^{e_1} \mod n \\
+        c_2 &=& m^{e_2} \mod n \\
+        \text{ggT}(e_1, e_2) &=& 1
+    \end{eqnarray}
+    
+    Da $n = p \cdot q$ eindeutig ist, verwenden Alice und Bob das gleiche
+    $p$ und $q$ und dementsprechend auch das selbe $\varphi(n)$.
+    
+    Das heißt es gilt auch:
+    \begin{eqnarray}
+        e_1 &\in& \mathbb{Z}^*_{\varphi(n)} \\
+        e_2 &\in& \mathbb{Z}^*_{\varphi(n)}
+    \end{eqnarray}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\roman*)]
+        \item 
+            \textbf{Hinweis 1:} es wird angenommen, dass $p, q > 1$, 
+            sonst gilt die Behauptung für $p=1$, $q=3$ 
+            (und damit $n=3$, $\varphi(n)=2$, $x=2$ nicht).
+
+        
+            \textbf{Hinweis 2:} o.B.d.A. wird der Beweis wird hier nur mod $p$ geführt,
+            gilt aber entsprechend auch mod $q$, durch vertauschen von $p$ und $q$.
+
+            In $\mathbb{Z}^*_p$ gilt:
+            \begin{equation}
+                x^{\varphi(p)} \equiv 1 \mod p
+            \end{equation}
+            da $p$ eine Primzahl ist gilt: $\varphi(p) = p-1$,
+            d.h. es gilt: 
+            \begin{equation}
+                x^{p-1} \equiv 1 \mod p
+            \end{equation}
+            da $q$ ungerade ist gilt, dass $q-1$ gerade ist, daher folgt
+            durch potenzieren:
+            \begin{eqnarray}
+                {\left(x^{p-1}\right)}^{\frac{q-1}{2}} &\equiv& 1^{\frac{q-1}{2}} \mod p \\
+                x^{\frac{(p-1)(q-1)}{2}} &\equiv& 1 \mod p
+            \end{eqnarray}
+            $n$ zerfällt in die beiden Primfaktoren $p$ und $q$ demzufolge gilt:
+            \begin{equation}
+                \varphi(n) = (p-1)(q-1)
+            \end{equation}
+            also gilt schlussendlich:
+            \begin{equation}
+                x^{\frac{\varphi(n)}{2}} \equiv 1 \mod p
+            \end{equation}
+        \item 
+            Es gilt:
+            \begin{eqnarray}
+                x^{\frac{\varphi(n)}{2}} &\equiv& 1 \mod p \\
+                x^{\frac{\varphi(n)}{2}} &\equiv& 1 \mod q \\
+                x^{\varphi(n)} &\equiv& 1 \mod n
+            \end{eqnarray}
+            oder anders geschrieben (mit $k_p, k_q, k_n \in \mathbb{Z}$):
+            \begin{eqnarray}
+                x^{\frac{\varphi(n)}{2}} &=& 1 + k_p \cdot p \label{eq:1} \\
+                x^{\frac{\varphi(n)}{2}} &=& 1 + k_q \cdot  q \label{eq:2} \\
+                x^{\varphi(n)} &=& 1 + k_n \cdot  n \label{eq:3}
+            \end{eqnarray}
+            durch multiplizieren von Gleichung \ref{eq:1} und \ref{eq:2} erhält man:
+            \begin{eqnarray}
+                x^{\frac{\varphi(n)}{2}} \cdot x^{\frac{\varphi(n)}{2}}
+                    &=& (1 + k_p \cdot p) \cdot (1 + k_q \cdot q) \\
+                \Leftrightarrow x^{\varphi(n)} &=& 1 + k_q \cdot q + k_p \cdot p + k_q \cdot k_p \cdot p \cdot q
+            \end{eqnarray}
+            gleichsetzten mit \ref{eq:3} ergibt:
+            \begin{eqnarray}
+                1 + k_n \cdot n &=& 1 + k_q \cdot q + k_p \cdot p + k_q \cdot k_p \cdot p \cdot q \\
+                 k_n \cdot n &=& k_q \cdot q + k_p \cdot p + k_q \cdot k_p \cdot p \cdot q
+            \end{eqnarray}
+            umformen ergibt:
+            \begin{eqnarray}
+                 k_n \cdot n &=& k_q \cdot q + k_p \cdot p + k_q \cdot k_p \cdot p \cdot q \\
+                 k_n &=& \frac{k_q \cdot q + k_p \cdot p}{n} + k_q \cdot k_p \\
+            \end{eqnarray}
+            da $k_n \in \mathbb{Z}$ und $k_q \cdot k_p \in \mathbb{Z}$ muss auch
+            \begin{equation}
+                \frac{k_q \cdot q + k_p \cdot p}{n} = c \in \mathbb{Z}
+            \end{equation}
+            weiteres umformen ergibt:
+            \begin{eqnarray}
+                k_q \cdot q + k_p \cdot p &=& c \cdot n \\
+                k_q \cdot q + k_p \cdot p &=& c \cdot p \cdot q \\
+                k_q \cdot q &=& c \cdot p \cdot q - k_p \cdot p \\
+                k_q &=& c \cdot p- \frac{k_p \cdot p}{q} \\
+            \end{eqnarray}
+            da $k_q \in \mathbb{Z}$ und $c \cdot p \in \mathbb{Z}$ muss auch,
+            $\frac{k_p \cdot p}{q} \in \mathbb{Z}$. Da aber $\text{ggT}(p, q)=1$
+            muss $k_p$ durch $q$ teilbar sein. Es gilt also:
+            \begin{equation}
+                k_p = q \cdot c_p,\ \ c_p \in \mathbb{Z}
+            \end{equation}
+
+            Einsetzen in Gleichung \ref{eq:1} ergibt:
+            \begin{equation}
+                x^{\frac{\varphi(n)}{2}} = 1 + c_p \cdot q \cdot p = 1 + c_p \cdot n
+            \end{equation}
+            also gilt:
+            \begin{equation}
+                x^{\frac{\varphi(n)}{2}} \equiv 1 \mod n \label{eq:b}
+            \end{equation}
+        \item 
+            Es soll gezeigt werden, dass:
+            \begin{equation}
+                e \cdot d \equiv 1 \mod \frac{\phi(n)}{2} \Rightarrow
+                    x^{e \cdot d} \equiv x \mod n
+            \end{equation}
+            die linke Seite der Implikation kann auch anders geschrieben werden
+            (mit $c \in \mathbb{Z}$):
+            \begin{equation}
+                e \cdot d = 1 + \frac{\varphi(n)}{2} \cdot c
+            \end{equation}
+            
+            daraus folgt (mit $k \in \mathbb{Z}$):
+            \begin{eqnarray}
+                x^{e \cdot d} &=& x^{1 + \frac{\varphi(n)}{2}} \\
+                    &=& x \cdot x^{\frac{\varphi(n)}{2} \cdot c} \\
+                    &=& x \cdot {\left(x^{\frac{\varphi(n)}{2}}\right)}^c \\
+                    &\stackrel{\ref{eq:b}}{=}& x \cdot {\left(1 + n \cdot k\right)}^c \\
+                    &=& x \cdot \sum_{i=0}^c \binom{c}{i} 1^{c-i} {\left(n \cdot k\right)}^i \\
+                    &=& x \cdot \left(1 + \sum_{i=1}^c \binom{c}{i} {\left(n \cdot k\right)}^i\right) \\
+                    &=& x + x \cdot n \cdot \left(\sum_{i=1}^c \binom{c}{i} n^{i-1} k^i\right)
+            \end{eqnarray}
+            Also gilt:
+            \begin{equation}
+                x^{e \cdot d} \equiv x \mod n
+            \end{equation}
+        \item Wenn $x$ Teilerfremd zu $n$ ist so lässt sich das Multiplikativ Inverse
+            zu $e$ (also $d$) sowohl bezüglich $\varphi(n)$ als auch $\frac{\varphi(n)}{2}$
+            berechnen und beide sind zum entschlüsseln nutzbar.
+    \end{enumerate}
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\roman*)]
+        \item
+            \textbf{Hinweis:} o.B.d.A. wird der Beweis wird hier nur mod $p$ geführt,
+            gilt aber entsprechend auch mod $q$, durch vertauschen von $p$ und $q$.
+
+            Es gilt (mit $k \in \mathbb{Z}$):
+
+            \begin{equation}
+                m = k \cdot \varphi(n)
+            \end{equation}
+            außerdem gilt:
+            \begin{equation}
+                \varphi(n) = (p-1) \cdot (q-1)
+            \end{equation}
+            das heißt es gilt:
+            \begin{equation}
+                m = k \cdot (p-1) \cdot (q-1)
+            \end{equation}
+        
+            außerdem gilt (da $p$ eine Primzahl ist):
+            \begin{equation}
+                \varphi(p) = p-1
+            \end{equation}
+        
+            das heißt es gilt:
+            \begin{equation}
+                m = \varphi(p) \cdot k \cdot (q-1)
+            \end{equation}
+
+            damit gilt dann:
+            \begin{eqnarray}
+                x^{\varphi(p)} &\equiv& 1 \mod p \\
+                {\left(x^{\varphi(p)}\right)}^{k \cdot (q-1)}  &\equiv& 1^{k \cdot (q-1)} \mod p \\
+                x^{\varphi(p) \cdot k \cdot (q-1)} &\equiv& 1 \mod p \\
+                x^m &\equiv& 1 \mod p \label{eq:a}
+            \end{eqnarray}
+        \item
+            \textbf{Hinweis:} o.B.d.A. wird der Beweis wird hier nur mod $p$ geführt,
+            gilt aber entsprechend auch mod $q$, durch vertauschen von $p$ und $q$.
+
+            \textbf{Fall 1:} $a$ Teilerfremd zu $n$:
+            
+            dann gilt nach Gleichung \ref{eq:a}
+            \begin{eqnarray}
+                a^m \equiv 1 \mod p \\
+                \Leftrightarrow a^{m+1} \equiv m \mod p \\
+            \end{eqnarray}
+
+            \textbf{Fall 2:} $a$ nicht Teilerfremd zu $n$:
+            
+            $n$ hat genau zwei Teiler, $p$ und $q$. D.h. $a$ ist entweder ein
+            vielfaches von $p$ oder von $q$.
+
+            \textbf{Fall 2.1:} $a$ ist ein vielfaches von $p$:
+
+            D.h. $a$ hat die Darstellung $a=p \cdot c$ mit $c \in \mathbb{Z}$.
+
+            Dann gilt aber:
+            \begin{equation}
+                a = p \cdot c \equiv 0 \mod p
+            \end{equation}
+            und folglich auch:
+            \begin{equation}
+                a^{m+1} \equiv 0 \mod p
+            \end{equation}
+            Folglich gilt die Aussage auch für diesen Fall
+
+            \textbf{Fall 2.2:} $a$ ist ein vielfaches von $q$:
+    
+            D.h. $a$ hat die Darstellung $a=q \cdot c$ mit $c \in \mathbb{Z}$.
+
+            Es gilt wieder (wie oben): $m = (p-1) \cdot (q-1) \cdot k$.
+
+            D.h. es gilt:
+            \begin{eqnarray}
+                a^{m+1} &\equiv& a \cdot a^m \mod p \\
+                a^{m+1} &\equiv& a \cdot {\left(q \cdot c\right)}^{(p-1)\cdot(q-1)\cdot k} \mod p \\
+                a^{m+1} &\equiv& a \cdot q^{(p-1)\cdot(q-1)\cdot k} \cdot c^{(p-1)\cdot(q-1)\cdot k} \mod p \\
+                a^{m+1} &\equiv& a \cdot {\left(q^{(p-1)}\right)}^{\cdot(q-1)\cdot k} \cdot {\left(q^{(p-1)}\right)}^{\cdot(q-1)\cdot k}
+            \end{eqnarray}
+            Da gilt $q$ Teilerfremd zu $p$ ist gilt:
+            \begin{equation}
+                 q^{p-1} \equiv 1 \mod p
+            \end{equation}
+
+            Außerdem gilt folgende Abschätzung:
+            \begin{eqnarray}
+                a &<& n \\
+                \Leftrightarrow q \cdot c &<& n \\
+                \Leftrightarrow c &<& \frac{n}{q} \\
+                \Leftrightarrow c &<& p 
+            \end{eqnarray}
+            d.h. $p \neq c$, damit folgt, dass $c$ Teilerfremd zu $p$ ist,
+            da $p$ eine Primzahl ist, also gilt $p \in \mathbb{Z}^*_p$.
+
+            Damit gilt dann auch:
+            \begin{equation}
+                c^{p-1} = 1
+            \end{equation} 
+
+            daraus folgt:
+            \begin{eqnarray}
+                a^{m+1} &\equiv& a \cdot {\left(q^{(p-1)}\right)}^{\cdot(q-1)\cdot k} \cdot {\left(q^{(p-1)}\right)}^{\cdot(q-1)\cdot k} \\
+                a^{m+1} &\equiv& a \cdot 1^{\cdot(q-1)\cdot k} \cdot 1^{\cdot(q-1)\cdot k} \\
+                a^{m+1} &\equiv& a \cdot 1 \cdot 1 \\
+                a^{m+1} &\equiv& a \label{eq:m1} \\
+            \end{eqnarray}
+        \item
+            Es muss gelten:
+            \begin{equation}
+                e \cdot d \equiv 1 \mod \varphi(n)
+            \end{equation}
+            oder auch (mit $k \in \mathbb{Z}$):
+            \begin{equation}
+                e \cdot d = 1 + \varphi(n) \cdot k
+            \end{equation} 
+            Das heißt aber es existiert ein $m$ nach obiger definition, sodass:
+            \begin{equation}
+                e \cdot d = m + 1
+            \end{equation}
+            nach Gleichung \ref{eq:m1} gilt dann direkt:
+            \begin{equation}
+                a^{e \cdot d} = a^{m+1} \equiv a \mod p
+            \end{equation} 
+            sowie
+            \begin{equation}
+                a^{e \cdot d} = a^{m+1} \equiv a \mod q
+            \end{equation} 
+
+            das heißt es muss gelten (mit $k_p, k_q \in \mathbb{Z}$):
+            \begin{eqnarray}
+                a^{e \cdot d} &=& a + k_p \cdot p \label{eq:rsa} \\
+                a^{e \cdot d} &=& a + k_q \cdot q \\
+            \end{eqnarray}
+            Gleichsetzten ergibt:
+            \begin{eqnarray}
+                k_p \cdot p + a &=& k_q \cdot q + a\\
+                k_p \cdot p &=& k_q \cdot q\\
+            \end{eqnarray}
+            da $p$ und $q$ Teilerfremd sind müssen jeweils $k_p$ durch $q$ und $k_q$ durch
+            $p$ Teilbar sein.
+
+            Das heißt es gilt: $k_p = q \cdot l,\ \ l \in \mathbb{Z}$.
+            Aus Gleichung \ref{eq:rsa} gilt dann aber:
+            \begin{equation}
+                a^{e \cdot d} = a + l \cdot p \cdot q = a + l \cdot n
+            \end{equation}
+            also gilt:
+            \begin{equation}
+                a^{e \cdot d} \equiv a \mod n
+            \end{equation}
+        \item Diese Aufgabe hat gezeigt, dass beliebige Nachrichten $a$ 
+            (mit $a<n$) verschlüsselt (und entschlüsselt) werden können, 
+            unabhängig davon ob sie Teilerfremd zu $n$ sind.
+    \end{enumerate}
+\end{document}
