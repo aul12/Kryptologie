@@ -366,4 +366,37 @@
             (mit $a<n$) verschlüsselt (und entschlüsselt) werden können, 
             unabhängig davon ob sie Teilerfremd zu $n$ sind.
     \end{enumerate}
+
+    \section{Aufgabe}
+    Es gilt:
+    \begin{equation}
+        x^2 \equiv y^2 \mod n 
+    \end{equation}
+    oder auch (für ein $k \in \mathbb{Z}$):
+    \begin{equation}
+        x^2 = y^2 + n \cdot k
+    \end{equation}
+    umformen ergibt:
+    \begin{eqnarray}
+        x^2 - y^2 &=& n \cdot k \\
+        \Leftrightarrow (x-y) \cdot (x+y) &=& n \cdot k \\
+        \Leftrightarrow (x-y) \cdot (x+y) &=& p \cdot q \cdot k \\
+        \Leftrightarrow \frac{(x-y) \cdot (x+y)}{p \cdot q} &=& k
+    \end{eqnarray}
+    das heißt $(x-y) \cdot (x+y)$ muss sich durch $p$ und $q$ teilen lassen.
+
+    Außerdem gilt $0 < x, y < n$, daraus folgt:
+    \begin{equation}
+        -n < x - y < n
+    \end{equation}
+    außerdem gilt $x \neq y$, also kann $x-y$ kein vielfaches von $n$ sein und folglich
+    nicht durch $n=p \cdot q$ teilbar sein.
+
+    Das heißt $x+y$ muss entweder durch $p$ oder durch $q$ teilbar sein.
+    Da $n$ sowohl durch $p$ als auch durch $q$ teilbar ist gilt dann:
+    \begin{equation}
+        \text{ggT}(x+y, n) = p \text{ bzw. } q
+    \end{equation}
+    beides sind nicht triviale Teiler von $n$.
+    
 \end{document}
