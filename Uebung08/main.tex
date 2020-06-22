@@ -1,0 +1,183 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+\usepackage{tcolorbox}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 8}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Es sind $n, a, \tilde{x}, \tilde{y}$ bekannte, außerdem existiert eine
+    Möglichkeit das El-Gamal-Problem zu lösen.
+
+    Wähle ein beliebiges $\tilde{m}$ und löse das El-Gamal-Problem mit
+    $n, a, \tilde{x}, \tilde{y}$ und $\tilde{m}$. Die Lösung ist ein $m$, so
+    dass:
+    \begin{equation}
+        \tilde{m} = a^{x y} \cdot m \mod n
+    \end{equation}
+    bestimme nun das Inverse zu $m (\mod n)$ ($m^{-1}$), dies ist z.B. über den extggT effizient
+    möglich, nun gilt:
+    \begin{equation}
+        \tilde{m} m^{-1} = a^{x y} \mod n = z
+    \end{equation}
+    damit ist auch das Diffie-Hellman-Problem gelöst, 
+
+    \section{Aufgabe}
+    Es gilt:
+    \begin{eqnarray}
+        h: &\{0, 1\}^* &\to \{0, 1\}^k \\
+        g: &\{0, 1\}^* &\to \{0, 1\}^l \\
+        f: &\{0, 1\}^l &\to \{0, 1\}^k
+    \end{eqnarray}
+    dabei sind $l, k$ beliebig $\in \mathbb{N}$. 
+    Außerdem ist $h$ stark kollisionsresistent.
+
+    Daraus folgt direkt, dass $f \circ g$ ebenfalls (stark) kollisionsresistent sein
+    muss.
+
+    Beweis per Widerspruch: Annahme $g$ ist nicht stark kollisionsresistent,
+    das heißt es lassen sich effizient $a, b \in \{0, 1\}^*$ mit $a \neq b$ aber
+    $g(a) = g(b)$ finden.
+
+    Da $g(a) = g(b)$ gilt, gilt dann auch $f(g(a)) = f(g(b))$, bzw. $h(a) = h(b)$.
+    Folglich lassen sich auch für $h$ effizient Kollisionen finden, d.h. 
+    $h$ ist nicht stark kollisionsresistent. Dies ist ein Widerspruch zur Annahme.
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item 
+            Es gilt:
+            \begin{equation}
+                \tilde{m} = z^e \cdot m \mod n
+            \end{equation}
+            mit $z=3, e=11, m=9, n=119$, also mit Zahlenwerten:
+            \begin{equation}
+                \tilde{m} = 3^{11} \cdot 9 \mod 119 = 80
+            \end{equation}
+        \item
+            Es gilt:
+            \begin{equation}
+                \tilde{u} = \tilde{m}^d \mod n
+            \end{equation}
+            zuerst muss $d$ berechnet werden, hierfür gilt:
+            \begin{equation}
+                e \cdot d \equiv 1 \mod \varphi(n)
+            \end{equation} 
+
+            da $n=17 \cdot 7$ gilt, folgt, dass $\varphi(n) = 16 \cdot 6 = 96$.
+            
+            Nun wird $d$ (das multiplikativ inverse) mithilfe des 
+            $\text{extggT}(\varphi(n), e)$ berechnet:
+            \begin{eqnarray}
+                96 &=& 8 \cdot 11 + 8 \\
+                11 &=& 1 \cdot 8 + 3 \\
+                8 &=&  2 \cdot 3 + 2 \\
+                3 &=& 1 \cdot 2 + 1 \\
+                2 &=& 2 \cdot 1 + 0
+            \end{eqnarray}
+            rückwärts einsetzten:
+            \begin{eqnarray}
+                1 &=& 3 - 1 \cdot 2 \\ 
+                  &=& 3 - 1 \cdot (8 - 2 \cdot 3) \\
+                  &=& (-1) \cdot 8 + 3 \cdot 3\\
+                  &=& (-1) \cdot 8 + 3 \cdot (11 - 8)\\
+                  &=& 3 \cdot 11 + (-4) \cdot 8  \\
+                  &=& 3 \cdot 11 + (-4) \cdot (96 - 8 \cdot 11)  \\
+                  &=& 3 \cdot 11 + 4 \cdot (8 \cdot 11 - 96)  \\
+                  &=& 35 \cdot 11 - 4 \cdot 96 
+            \end{eqnarray}
+            d.h. $d=35$.
+
+            Damit lässt sich dann $\tilde{u}$ berechnen:
+            \begin{equation}
+                \tilde{u} = 80^{35} \mod 119 = 96
+            \end{equation}
+
+        \item 
+            Es gilt:
+            \begin{equation}
+                u = \tilde{u} \cdot z^{-1} \mod n
+            \end{equation}
+
+            Zuerst $z^{-1}$ bestimmen, da $119+1=120=3 \cdot 40$ gilt, ist
+            $z^{-1} = 40$.
+
+            mit Zahlen gilt also:
+            \begin{equation}
+                u = 96 \cdot 40 \mod 119 = 32
+            \end{equation}
+
+            direktes Nachrrechen liefert das gleiche Ergebnis:
+            \begin{equation}
+                u = m^d \mod n = 9^{35} \mod 119 = 32
+            \end{equation}
+    \end{enumerate}
+
+   %\section{Aufgabe}
+\end{document}
