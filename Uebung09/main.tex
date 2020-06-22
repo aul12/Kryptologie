@@ -1,0 +1,132 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+\usepackage{tcolorbox}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 8}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    \begin{enumerate}[label=\alph*)]
+        \item Siehe Abbildung \ref{fig:g0}, \ref{fig:g1} und \ref{fig:h}.
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{g0.pdf}
+                \caption{$G_0$} 
+                \label{fig:g0}
+            \end{figure}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{g1.pdf}
+                \caption{$G_1$} 
+                \label{fig:g1}
+            \end{figure}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{h.pdf}
+                \caption{$H$} 
+                \label{fig:h}
+            \end{figure}
+        \item Die Response von $P$ ist die Permutation welche $G_{b=1}$ zu
+            $H$ überführt, also $\sigma$.
+    \end{enumerate}
+
+    \section{Aufgabe}
+    Fiat-Shamir-Protokoll mit $n=77, \tilde{x}=37$.
+
+    Es muss gelten:
+    \begin{equation}
+        f(z) = f(x \cdot y \mod n) = \tilde{x} \cdot \tilde{y} \mod n = f(x) \cdot f(y)
+    \end{equation}
+    mit
+    \begin{equation}
+        f(x) = x^2 \mod n
+    \end{equation}
+
+    \begin{enumerate}[label=\alph*)]
+        \item 
+            \textbf{Annahme:} Für $b=0$ muss der Prover seinen Wert für $y$ offenlegen,
+            nicht $z$ es, wird angenommen, dass $y=63$ (statt $z=63$), sonst hält sich
+            Peter nicht an das vorgeschriebene Protokoll.
+
+            Es gilt $\tilde{y}=42$, Challenge $b=0$, Response $y=63$.
+            $\tilde{y}$ nachrechnen:
+            \begin{equation}
+                \tilde{y} = f(y) \stackrel{!}{=} 63^2 \mod 77 = 42
+            \end{equation}
+            somit besteht die Möglichkeit (mit Wahrscheinlichkeit $\frac{1}{2}$), das
+            Peter $x$ kennt.
+        \item Es gilt $\tilde{y}=15$, Challenge $b=1$, Response $z=64$.
+            Nachrechnen:
+            \begin{equation}
+                f(z) = 64^2 \mod 77 = 15 \stackrel{!}{=} \tilde{x} \cdot \tilde{y} \mod n
+                    = 37 \cdot 15 \mod 77 = 16
+            \end{equation}
+            da $15 \neq 16$ kennt Peter $x$ definiv nicht.
+    \end{enumerate}
+\end{document}
