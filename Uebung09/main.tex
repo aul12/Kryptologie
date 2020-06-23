@@ -129,4 +129,68 @@
             \end{equation}
             da $15 \neq 16$ kennt Peter $x$ definiv nicht.
     \end{enumerate}
+
+    \section{Aufgabe}
+    Es gilt zu zeigen, dass der Prover $\chi$ kennt, sowie keinerlei Information
+    über $\chi$ veröffentlicht.
+
+    Da $g_1$ und $g_2$ Primitivwurzeln sind gilt (mit $g \in \{g_1, g_2\}$):
+    \begin{equation}
+        \chi_1, \chi_2 \in \mathbb{Z}^*_p \land \chi_1 \neq \chi_2 \Rightarrow 
+            g^{\chi_1} \neq g^{\chi_2}
+    \end{equation}
+    da die Abbildung eindeutig ist kann es also nur ein $\chi$ geben mit:
+    \begin{eqnarray}
+        y_1 &=& g_1^\chi \mod p \\
+        y_2 &=& g_2^\chi \mod p 
+    \end{eqnarray}
+    folglich muss gelten:
+    \begin{equation}
+        \log_{g_1}(y_1) = \log_{g_2}(y_2)
+    \end{equation}
+    das heißt der Prover muss $\chi$ kennen, da der diskrete Logarithmus nicht effizient
+    zu berechnen ist.
+
+    Noch zu zeigen: Der Prover veröffentlicht keinerlei Information über $\chi$.
+    Hierfür betrachte das Kommikationtriple: es besteht hier aus: 
+    $((k_1, k_2), b, \chi')$, bzw. genauer:
+    \begin{eqnarray}
+        &((k_1, k_2), 0, r \mod p-1) \text{ bzw.}\\ 
+        &((k_1, k_2), 1, (r + x) \mod p-1)
+    \end{eqnarray}
+    Es gilt zu zeigen, dass eine Verteilung existiert (der Simulator), so dass
+    das übertragene Triple dieses Verteilung folgt.
+
+    $r$ wird aus $\{0, \ldots, p-2\}$ gezogen (Annahme: Gleichverteilt), das heißt
+    $k_1, k_2$ sind wieder gleichverteilt auf $\{1, \ldots, p\}$.
+    Außerdem ist $(k_1, k_2)$ statistisch unabhängig von $\chi$, da $\chi$ an
+    der Erstellung nicht beteiligt ist.
+
+    Die Variable $b$ wird ebenfalls gleichverteilt gezogen, offensichtlich ist
+    $b$ statisch unabhängig von $(k_1, k_2)$ und $\chi$.
+
+    Die dritte Variable ist für $b=0$ ebenfalls offensichtlich statistisch unabhängig
+    von $\chi$, da $\chi$ an der Berechnung nicht beteiligt ist. Für $b=1$ ist $\chi$
+    direkt an der Berechnung von $\chi'$ beteiligt, da $\chi$ aber gleichverteilt
+    auf $\{0, \ldots, p-2\}$ ist, also der gleichen Verteilung wie $r$ folgt ist aus
+    der Summe $r + \chi$ keinerlei Information über $\chi$ inferierbar.
+
+    \section{Aufgabe} 
+    \begin{itemize}
+        \item Knoten können jeweils nur mit Knoten des selben Rangs getauscht werden.
+            Für $n$ Knoten gibt es genau $n!$ mögliche Permutationen.
+
+            Das heißt die Mächtigkeit der Graph-Permutationsmenge berechnet sich dann
+            durch:
+            \begin{equation}
+                N = \prod_{i=1}^5 \abs{G_i}!
+            \end{equation}
+            wenn $G$ ausgenommen wird existieren also $N-1$ isomorphe Graphen.
+        \item Um die Anzahl der Isomorphen Graphen zu maximieren sollte der Knotengrad
+            innerhalb des Graphens konstant sein. Der eigentliche Knotengrad ist hierbei
+            irrelevant.
+    \end{itemize}
+
+    \section{Aufgabe}
+    \pythonexternal{aufgabe5.py} 
 \end{document}
