@@ -154,7 +154,15 @@
     \end{equation}
 
     \section{Aufgabe}
-    TODO
+    Es kann ein Schwellenwertsystem mit $n=7$ und $k=3$ gewählt werden hierbei erhalten die Parteien folgende
+    Informationen:
+    \begin{itemize}
+        \item \textbf{Filialleiter:} Den Schlüssel
+        \item \textbf{Kundenberater:} zwei Teile des Geheimnis
+        \item \textbf{Sachbearbeiter:} ein Teil des Geheimnis
+    \end{itemize}
+    die Geheimnise sind entsprechend disjunkt gewählt. Die erlaubten Personengruppen besitzen dann immer $\geq 3$
+    Geheimnise, und können damit den Schlüssel bestimmen (bzw. besitzten direkt den Schlüssel).
 
     \section{Aufgabe}
     \begin{enumerate}[label=\alph*)]
@@ -199,15 +207,23 @@
                     = 3 \cdot 10^{-1} = 3 \cdot 7 = 21 \mod 23 
             \end{equation}
             damit dann den neuen Punkt berechnen:
-            \begin{equation}
+            \begin{eqnarray}
                 x_3 &=& \lambda^2 - x_1 - x_1 = 21^2 - 2 = 2 \mod 23 \\
                 y_3 &=& \lambda \cdot (x_1 - x_3) - y_1
                     = 21 \cdot (1 - 2) - 5 = 20 \mod 23
-            \end{equation}
+            \end{eqnarray}
             also gilt:
             \begin{equation}
                 P \diamondsuit P = (2, 20)
             \end{equation}
     \end{enumerate}
     
+    \section{Aufgabe}
+    Teile $i$ als Summe von Zweierpotenzen entsprechend der Binärdarstellung auf. Hierbei ist der größte Exponent
+    $\leq \log_2(i)$. $P^{2^k}$ kann dann für die einzelnen Zweierpotenzen $k$ effizient durch $k$-faches Quadrieren
+    berechnet werden. Zum Schluss müssen nur noch die einzelnen Werte multipliziert werden.
+
+    \section{Aufgabe}
+    Anstelle der Exponentation auf zyklischen Gruppen wird die Exponentation auf elliptischen Kurven berechnet. Auch
+    dieses Problem ist nicht effizient umkehrbar.
 \end{document}
