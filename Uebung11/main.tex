@@ -1,0 +1,160 @@
+\documentclass[DIN, pagenumber=false, fontsize=11pt, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{circuitikz}
+\usepackage{listings} % needed for the inclusion of source code
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{cleveref}
+\usepackage{bm}
+\usepackage{tcolorbox}
+\usepackage{mathtools}
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\scriptsize,
+    otherkeywords={self},             % Add keywords here
+    keywordstyle=\color{deepblue},
+    emph={MyClass,__init__},          % Custom highlighting
+    emphstyle=\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    showstringspaces=false,            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+\title{Übungsblatt 11}
+\subtitle{Kryptologie: Algorithmen und Methoden}
+\author{Paul Nykiel}
+
+\begin{document}
+    \maketitle
+    \section{Aufgabe}
+    Zu Begin: $a=2, B=1, n=24823$.
+    \begin{enumerate}
+        \item
+            \begin{eqnarray}
+                B &=& B+1 = 2 \\
+                a &=& a^B \mod n = 4 \\
+                \text{ggT}(a-1, n) &=& 1 
+            \end{eqnarray}
+        \item
+            \begin{eqnarray}
+                B &=& B+1 = 3 \\
+                a &=& a^B \mod n = 64 \\
+                \text{ggT}(a-1, n) &=& 1 
+            \end{eqnarray}
+        \item
+            \begin{eqnarray}
+                B &=& B+1 = 4 \\
+                a &=& a^B \mod n = 21691 \\
+                \text{ggT}(a-1, n) &=& 1 
+            \end{eqnarray}
+        \item
+            \begin{eqnarray}
+                B &=& B+1 = 5 \\
+                a &=& a^B \mod n = 2893 \\
+                \text{ggT}(a-1, n) &=& 241 
+            \end{eqnarray}
+    \end{enumerate}
+    Einer der Teiler von $n$ ist $241$. 
+    Damit ergibt sich $\tilde{n} = \frac{n}{241} = 103$, welches ebenfalls eine
+    Primzahl ist, folglich sind die (einzigen) beiden Primfaktoren $103$ und $241$.
+
+    \section{Aufgabe}
+    Es gilt: $x = y = 20, n=1219$.
+    \begin{enumerate}
+        \item 
+            \begin{eqnarray}
+                x &=& x^2 + 1 \mod 1219 = 401 \\
+                \tilde{y} &=& y^2 + 1 \mod 1219 = 401 \\
+                y &=& \tilde{y}^2 + 1 \mod 1219 = 1113 \\
+                g &=& \text{ggT}(x-y, n) = 1
+            \end{eqnarray}
+        \item 
+            \begin{eqnarray}
+                x &=& x^2 + 1 \mod 1219 = 1113 \\
+                \tilde{y} &=& y^2 + 1 \mod 1219 = 266 \\
+                y &=& \tilde{y}^2 + 1 \mod 1219 = 55 \\
+                g &=& \text{ggT}(x-y, n) = 23
+            \end{eqnarray}
+    \end{enumerate} 
+    Einer der Teiler von $n$ ist $23$. 
+    Damit ergibt sich $\tilde{n} = \frac{n}{23} = 53$ welches ebenfalls eine Primzahl ist,
+    folglich sind die (einzigen) beiden Primfaktoren $23$ und $53$.
+
+    \section{Aufgabe}
+    \textbf{Anmerkung:} im Skript wird das neue $z$ durch $z + 2 \cdot x - 1$ berechnet, es muss jedoch durch
+    $z+ 2 \cdot x + 1$ berechnet werden, da:
+    \begin{eqnarray}
+        z &=& x^2 -n \\
+        \tilde{z} &=& {(x+1)}^2 - n \\
+        &=& x^2 + 2 \cdot x + 1 - n \\
+        &=& x^2 - n + 2 \cdot x + 1 \\
+        &=& z + 2 \cdot x + 1
+    \end{eqnarray}
+    Mit dem Algorithmus von Fermat zur Faktorisierung wird keine Lösung gefunden, siehe
+    \ref{sec:app:3}.
+
+    \section{Aufgabe}
+    \begin{enumerate}[label=(\alph*)]
+        \item Aus den fünf möglichen Werten für $x$ können jeweils die beiden
+            möglichen $y$ Werte bestimmt werden. Siehe hierfür \ref{sec:app:4}.
+            
+            Die Punkte sind: $(0, 0), (2, 0), (3, 0)$. Für $x=1$ und $x=4$ existieren
+            keine Lösungen.
+            
+    \end{enumerate}
+
+    \appendix
+    \section{Aufgabe 3} \label{sec:app:3}
+    \pythonexternal{aufgabe3.py}
+
+    \section{Aufgabe 4} \label{sec:app:4}
+    \pythonexternal{aufgabe4.py}
+\end{document}
